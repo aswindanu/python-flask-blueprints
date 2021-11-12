@@ -1,0 +1,42 @@
+<!doctype html>
+<head>
+  <title>
+    {{ title }} 
+  </title>
+  <style>
+table, th, td {
+  border:1px solid black;
+}
+</style>
+</head>
+<body>
+    <a href="{{ url_for('manage_family.add_family')}}">
+        <h3>add</h3>
+    </a>
+    
+    {% if family|length > 0 %}
+    <table >
+      <tr>
+        <th>Nama</th>
+        <th>Kelamin</th>
+        <th>Action</th>
+      </tr>
+      
+    {%for f in family%}
+        <tr>
+        <td>{{ f.nama }}</td>
+        <td>{{ f.kelamin.name }}</td>
+        <td>
+        <a href="{{ url_for('manage_family.edit_person', fam_id = f.id)}}">Update</a> | 
+            <a href="{{ url_for('manage_family.delete_person', fam_id = f.id)}}">
+                    Delete
+            </a>
+        </td>
+        </tr>
+    {%endfor%}
+      
+    </table>
+    {% else %}
+        No family
+    {% endif %}
+</body>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<form  action="{{ url_for('manage_family.edit_person', fam_id  = person.id)}}" method="post">
+  <label for="fname">Nama</label><br>
+  <input type="text" id="fname" name="fname" required  value = "{{person.nama}}" required>
+  <br>
+  
+  <label>Gender</label><br>
+  {% if person.kelamin.name == 'L' %}
+      <input type="radio" id="kelaminL" name="kelamin" value="L" required checked><label for="kelaminL">L</label>  
+      <input type="radio" id="kelaminP" name="kelamin" value="P" required><label for="kelaminP">P</label>
+  {% else %}
+      <input type="radio" id="kelaminL" name="kelamin" value="L" required><label for="kelaminL">L</label>  
+      <input type="radio" id="kelaminP" name="kelamin" value="P" required  checked><label for="kelaminP">P</label>
+  {% endif %}
+   <br>
+  
+  <label >Parent</label>
+  <select name="select_parent">
+      {% if person.orang_tua_id == 0 %}
+          <option value="" selected>None</option>
+          {%for f in family%}
+        <option value="{{f.id}}">{{f.nama}}</option>
+        {%endfor%}
+      {% else %}
+      <option value="" >None</option>
+          {%for f in family%}
+              {% if (person.orang_tua_id == f.id) %}
+                <option value="{{f.id}}" selected>{{f.nama}}</option>
+              {% else %}
+              <option value="{{f.id}}" >{{f.nama}}</option>
+             {% endif %}
+          {%endfor%}
+    {% endif %}
+  </select>
+   <br>
+   <br>
+  
+  <input type="submit" value="Submit">
+   <a href="{{ url_for('manage_family.all_family')}}">
+        back
+    </a>
+</form> 
+
+
+</body>
+</html>
