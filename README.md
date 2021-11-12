@@ -23,16 +23,21 @@ this project using this kind of library:
 5. install requirements:
     ```pip install -r requirements.txt```
 
-6. configure your env in .env file
+6. configure your env in `.env` file
 
     - DEBUG=
     - DATABASE_URL=
 
-7. Create the database `myfamily` 
+7. configure your env for `FLASK_APP` & `FLASK_ENV`
 
-8. Import data from `db/db.sql`
+    - export FLASK_APP="app"
+    - export FLASK_ENV="development" (debug)
 
-9. run the program:
+8. Create the database `myfamily` 
+
+9. Import data from `db/db.sql`
+
+10. run the program:
     ```flask run```
 
 #### Update requirements (virtualenv)
