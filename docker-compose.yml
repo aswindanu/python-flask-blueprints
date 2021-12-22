@@ -1,0 +1,48 @@
+version: '3.7'
+
+services:
+  db:
+    image: postgres:latest
+    container_name: sirclo-db
+    restart: unless-stopped
+    ports:
+      - 5432:5432
+    volumes:
+      - database_data:/var/lib/postgresql/data
+      - ./db/init:/docker-entrypoint-initdb.d
+    environment:
+      POSTGRES_DB: ${POSTGRES_DATABASE?Variable not set}
+      POSTGRES_USER: ${POSTGRES_USERNAME?Variable not set}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD?Variable not set}
+      TZ: 'Asia/Jakarta'
+
+  api:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    container_name: sirclo-be
+    restart: unless-stopped
+    # command: tail -f /dev/null
+    command: sh ./start.sh
+    expose:
+      - 5000
+    ports:
+      - 5000:5000
+    volumes:
+      - .:/app/
+    depends_on:
+      - db
+    environment:
+      DATABASE_HOST: ${POSTGRES_HOST?Variable not set}
+      DATABASE_PORT: ${POSTGRES_PORT?Variable not set}
+      DATABASE_USERNAME: ${POSTGRES_USERNAME?Variable not set}
+      DATABASE_DATABASE: ${POSTGRES_DATABASE?Variable not set}
+      DATABASE_PASSWORD: ${POSTGRES_PASSWORD?Variable not set}
+      DATABASE_URL: ${DATABASE_URL?Variable not set}
+
+volumes:
+  database_data:
+
+networks:
+    default:
+        name: sirclo-test
