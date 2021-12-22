@@ -3,7 +3,7 @@ version: '3.7'
 services:
   db:
     image: postgres:latest
-    container_name: sirclo-db
+    container_name: db
     restart: unless-stopped
     ports:
       - 5432:5432
@@ -20,7 +20,7 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
-    container_name: sirclo-be
+    container_name: be
     restart: unless-stopped
     # command: tail -f /dev/null
     command: sh ./start.sh
@@ -45,4 +45,4 @@ volumes:
 
 networks:
     default:
-        name: sirclo-test
+        name: test

@@ -9,10 +9,10 @@ this project using this kind of library:
 
 #### How to Start Project
 1. Clone this project:
-    ```git clone https://github.com/aswindanu/sirclo-test.git sirclo_test```
+    ```git clone https://github.com/aswindanu/python-flask-simple.git flask_simple```
 
 2. Go to project dir:
-    ```cd sirclo_test/jawaban/berat```
+    ```cd flask_simple```
 
 3. configure your env in `.env` file (copy from .env.sample)
     ```cp .env.sample .env```
