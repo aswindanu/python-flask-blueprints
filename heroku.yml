@@ -44,5 +44,5 @@ volumes:
   database_data:
 
 networks:
-    default:
-        name: test
+  default:
+    name: test
