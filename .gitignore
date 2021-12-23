@@ -109,6 +109,8 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+heroku_env.ps1
+heroku_db.sh
 
 # Spyder project settings
 .spyderproject
