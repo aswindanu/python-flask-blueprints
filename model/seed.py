@@ -2,9 +2,15 @@ import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
 
-
+DATABASE_URL = "postgresql+psycopg2://{}:{}@{}:{}/{}".format(
+    os.getenv("DATABASE_USERNAME") or os.getenv("POSTGRES_USERNAME"),
+    os.getenv("DATABASE_PASSWORD") or os.getenv("POSTGRES_PASSWORD"),
+    os.getenv("DATABASE_HOST") or os.getenv("POSTGRES_HOST"),
+    os.getenv("DATABASE_PORT") or os.getenv("POSTGRES_PORT"),
+    os.getenv("DATABASE_DATABASE") or os.getenv("POSTGRES_DATABASE"),
+)
 engine = create_engine(
-    os.environ["DATABASE_URL"],
+    DATABASE_URL,
     echo=True
 )
 
