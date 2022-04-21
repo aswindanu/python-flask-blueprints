@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 from flask import Flask
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
+from flask_jwt_extended import JWTManager
 
 from util.common import success_template
 
@@ -33,6 +34,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
+jwt = JWTManager(app)
 
 @app.route('/')
 def hello():
@@ -42,10 +44,12 @@ from blueprints.index import bp_index
 from blueprints.detail import bp_detail
 from blueprints.crud import bp_crud
 from blueprints.user import bp_user
+from blueprints.auth import bp_auth
 
 app.register_blueprint(bp_index)
 app.register_blueprint(bp_detail)
 app.register_blueprint(bp_crud)
 app.register_blueprint(bp_user)
+app.register_blueprint(bp_auth)
 
 db.create_all()

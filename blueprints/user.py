@@ -5,6 +5,7 @@ from unittest import result
 
 from flask import Blueprint, redirect
 from flask_restful import Resource, Api, reqparse, marshal, inputs, request
+from flask_jwt_extended import jwt_required
 from sqlalchemy import desc
 
 from app import db, app
@@ -17,6 +18,7 @@ api = Api(bp_user)
 
 
 class UserResource(Resource):
+    @jwt_required()
     def get(self):
         parser = reqparse.RequestParser()
         parser.add_argument('id', location='args')
@@ -32,6 +34,7 @@ class UserResource(Resource):
             return {"status":"success", "result":result}, 200, {'Content-Type':'application/json'}
         return {'status':'failed',"result":"ID Not Found"}, 404, {'Content-Type':'application/json'}
 
+    @jwt_required()
     def post(self):
         parser = reqparse.RequestParser()
         parser.add_argument('email', location='json')
@@ -53,6 +56,7 @@ class UserResource(Resource):
             return {'status':'failed',"result":"Internal Server Error"}, 500, {'Content-Type':'application/json'}
         return ('', 201)
 
+    @jwt_required()
     def put(self):
         parser = reqparse.RequestParser()
         parser.add_argument('id', location='args', required=True)
@@ -81,6 +85,7 @@ class UserResource(Resource):
             return {'status':'failed',"result":"Internal Server Error"}, 500, {'Content-Type':'application/json'}
         return {"status":"success", "result":marshal(qry, User.response_field)}, 200, {'Content-Type':'application/json'}
 
+    @jwt_required()
     def delete(self):
         parser = reqparse.RequestParser()
         parser.add_argument('id', location='json', required=True)
@@ -105,38 +110,4 @@ class UserResource(Resource):
         return {}, 200
 
 
-class LoginResource(Resource):
-    def get(self):
-        parser = reqparse.RequestParser()
-        parser.add_argument('email_or_username', location='args', required=True)
-        parser.add_argument('password', location='args', required=True)
-        args = parser.parse_args()
-
-        qry = User.query.filter_by(email=args["email_or_username"], password=args["password"]).first()
-        if qry:
-            return {"status":"success", "result":marshal(qry, User.response_field)}, 200, {'Content-Type':'application/json'}
-        qry = User.query.filter_by(username=args["email_or_username"], password=args["password"]).first()
-        if qry:
-            return {"status":"success", "result":marshal(qry, User.response_field)}, 200, {'Content-Type':'application/json'}
-        return {'status':'failed',"result":"ID Not Found"}, 404, {'Content-Type':'application/json'}
-
-    def post(self):
-        parser = reqparse.RequestParser()
-        parser.add_argument('email_or_username', location='json', required=True)
-        parser.add_argument('password', location='json', required=True)
-        args = parser.parse_args()
-
-        qry = User.query.filter_by(email=args["email_or_username"], password=args["password"]).first()
-        if qry:
-            return {"status":"success", "result":marshal(qry, User.response_field)}, 200, {'Content-Type':'application/json'}
-        qry = User.query.filter_by(username=args["email_or_username"], password=args["password"]).first()
-        if qry:
-            return {"status":"success", "result":marshal(qry, User.response_field)}, 200, {'Content-Type':'application/json'}
-        return {'status':'failed',"result":"ID Not Found"}, 404, {'Content-Type':'application/json'}
-
-    def options(self):
-        return {}, 200
-
-
 api.add_resource(UserResource, '/user', '/user')
-api.add_resource(LoginResource, '/login', '/login')
