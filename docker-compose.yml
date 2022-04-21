@@ -20,7 +20,9 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
+    # container_name: aswindanu1437/python-flask-simple
     container_name: be
+    platform: linux/amd64
     restart: unless-stopped
     # command: tail -f /dev/null
     command: sh ./start.sh

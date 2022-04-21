@@ -1,0 +1,27 @@
+name: GitHub Actions
+on:
+  push:
+    branches: [master]
+
+jobs:
+  Explore-GitHub-Actions:
+    environment: python-flask-simple
+    runs-on: ubuntu-latest
+    steps:
+      - name: docker login
+        run: docker login -u ${{ secrets.USER_DC }} -p ${{ secrets.PASS_DC }}
+      # - name: docker build
+      #   run: docker build --tag aswindanu1437/python-flask-simple --platform linux/amd64 .
+      # - name: docker push
+      #   run: docker push aswindanu1437/python-flask-simple:latest
+      # - name: docker renew remote ssh
+      #   uses: appleboy/ssh-action@master
+      #   with:
+      #     host: ${{ secrets.SSH_HOST }}
+      #     username: ${{ secrets.SSH_USER }}
+      #     password: ${{ secrets.SSH_PASS }}
+      #     port: ${{ secrets.SSH_PORT }}
+      #     script: |
+      #       sudo docker pull aswindanu1437/python-flask-simple:latest
+      #       sudo docker rm backend_tester
+      #       sudo docker run -d -p 5001:5000 --name backend_tester aswindanu1437/python-flask-simple:latest

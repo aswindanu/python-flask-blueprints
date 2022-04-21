@@ -1,5 +1,8 @@
 export FLASK_ENV=development
 
+# handle deprecated
+pip install flask-jwt-extended --upgrade
+
 flask db init
 flask db migrate
 flask db upgrade

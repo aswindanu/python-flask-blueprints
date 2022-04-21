@@ -11,4 +11,7 @@ COPY . .
 
 RUN sed -i 's/\r$//' start.sh
 
-EXPOSE 5000
+# CMD ["tail", "-f", "/dev/null"]
+CMD ["sh", "./start.sh"]
+
+EXPOSE 5001
