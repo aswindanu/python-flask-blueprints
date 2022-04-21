@@ -2,7 +2,7 @@
 import hashlib, datetime
 
 from flask import Blueprint
-from flask_restful import Resource, Api, reqparse, marshal, inputs
+from flask_restful import Resource, Api, reqparse, marshal, inputs, request
 
 from app import db, app
 from model.db_model import BeratBadan

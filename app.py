@@ -41,9 +41,11 @@ def hello():
 from blueprints.index import bp_index
 from blueprints.detail import bp_detail
 from blueprints.crud import bp_crud
+from blueprints.user import bp_user
 
 app.register_blueprint(bp_index)
 app.register_blueprint(bp_detail)
 app.register_blueprint(bp_crud)
+app.register_blueprint(bp_user)
 
 db.create_all()

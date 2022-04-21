@@ -27,6 +27,15 @@ INSERT INTO "public"."berat_badan" ("id", "max", "min", "perbedaan", "tanggal") 
 (5, 50, 49, 1, '2018-08-22');
 
 SELECT setval('berat_badan_id_seq', 6, true);
+
+INSERT INTO "public"."user" ("id", "email", "username", "password", "fullname", "phone", "gender", "active", "ip_address", "created_at", "updated_at") VALUES
+(1, 'testone@gmail.com', 'testone', 'testone', 'Test One', '08123456781', 'M', TRUE, '127.0.0.1', '2018-08-19', '2018-08-19'),
+(2, 'testtwo@gmail.com', 'testtwo', 'testtwo', 'Test Two', '08123456782', 'F', TRUE, '127.0.0.1', '2018-08-19', '2018-08-19'),
+(3, 'testthree@gmail.com', 'testthree', 'testthree', 'Test Three', '08123456783', 'M', TRUE, '127.0.0.1', '2018-08-19', '2018-08-19'),
+(4, 'testfour@gmail.com', 'testfour', 'testfour', 'Test Four', '08123456784', 'F', TRUE, '127.0.0.1', '2018-08-19', '2018-08-19'),
+(5, 'testfive@gmail.com', 'testfive', 'testfive', 'Test Five', '08123456785', 'M', TRUE, '127.0.0.1', '2018-08-19', '2018-08-19');
+
+SELECT setval('user_id_seq', 6, true);
 """
 )
 s.commit()
