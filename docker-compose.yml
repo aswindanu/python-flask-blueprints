@@ -41,6 +41,7 @@ services:
       DATABASE_DATABASE: ${POSTGRES_DATABASE?Variable not set}
       DATABASE_PASSWORD: ${POSTGRES_PASSWORD?Variable not set}
       DATABASE_URL: ${DATABASE_URL?Variable not set}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY?Variable not set}
 
 volumes:
   database_data:

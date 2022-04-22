@@ -23,12 +23,12 @@ class LoginResource(Resource):
         qry = User.query.filter_by(email=args["email_or_username"], password=args["password"]).first()
         if qry:
             claim = marshal(qry, User.response_field)
-            token = create_access_token(identity=args['username'], additional_claims=claim)
+            token = create_access_token(identity=args['email_or_username'], additional_claims=claim)
             return {"status":"success",'result': token}, 200, {'Content-Type':'application/json'}
         qry = User.query.filter_by(username=args["email_or_username"], password=args["password"]).first()
         if qry:
             claim = marshal(qry, User.response_field)
-            token = create_access_token(identity=args['username'], additional_claims=claim)
+            token = create_access_token(identity=args['email_or_username'], additional_claims=claim)
             return {"status":"success",'result': token}, 200, {'Content-Type':'application/json'}
         return {'status':'failed', 'result': 'UNAUTHORIZED | invalid key or secret'}, 401
 
@@ -44,12 +44,12 @@ class LoginResource(Resource):
         qry = User.query.filter_by(email=args["email_or_username"], password=args["password"]).first()
         if qry:
             claim = marshal(qry, User.response_field)
-            token = create_access_token(identity=args['username'], additional_claims=claim)
+            token = create_access_token(identity=args['email_or_username'], additional_claims=claim)
             return {"status":"success",'result': token}, 200, {'Content-Type':'application/json'}
         qry = User.query.filter_by(username=args["email_or_username"], password=args["password"]).first()
         if qry:
             claim = marshal(qry, User.response_field)
-            token = create_access_token(identity=args['username'], additional_claims=claim)
+            token = create_access_token(identity=args['email_or_username'], additional_claims=claim)
             return {"status":"success",'result': token}, 200, {'Content-Type':'application/json'}
         return {'status':'failed', 'result': 'UNAUTHORIZED | invalid key or secret'}, 401
 
