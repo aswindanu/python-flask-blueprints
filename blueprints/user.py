@@ -34,7 +34,6 @@ class UserResource(Resource):
             return {"status":"success", "result":result}, 200, {'Content-Type':'application/json'}
         return {'status':'failed',"result":"ID Not Found"}, 404, {'Content-Type':'application/json'}
 
-    @jwt_required()
     def post(self):
         parser = reqparse.RequestParser()
         parser.add_argument('email', location='json')
@@ -44,9 +43,6 @@ class UserResource(Resource):
         parser.add_argument('phone', location='json')
         parser.add_argument('gender', location='json')
         args = parser.parse_args()
-
-        if not args["id"]:
-            return {'status':'failed',"result":"ID Not Found"}, 404, {'Content-Type':'application/json'}
 
         req = User(**args, active=True, ip_address=request.remote_addr)
         try:
