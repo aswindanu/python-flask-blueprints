@@ -21,7 +21,7 @@ class UserResource(Resource):
     @jwt_required()
     def get(self):
         parser = reqparse.RequestParser()
-        parser.add_argument('id', location='args', required=True)
+        parser.add_argument('id', location='args')
         args = parser.parse_args()
 
         if args["id"]:
