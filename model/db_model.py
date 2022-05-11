@@ -41,8 +41,8 @@ class User(db.Model):
     gender = db.Column(db.Enum("M", "F", name='gender_types'), nullable=False)
     active = db.Column(db.Boolean, nullable=False, default=True)
     ip_address = db.Column(db.String, nullable=False, default=True)
-    created_at = db.Column(db.DateTime, default=datetime.today(),  nullable=False)
-    updated_at = db.Column(db.DateTime, default=datetime.today(),  nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.today())
+    updated_at = db.Column(db.DateTime, default=datetime.today())
 
     response_field = {
         'id': fields.Integer,
@@ -68,8 +68,6 @@ class User(db.Model):
         gender,
         active,
         ip_address,
-        created_at,
-        updated_at,
     ) -> None:
         self.email = email
         self.username = username
@@ -79,5 +77,3 @@ class User(db.Model):
         self.gender = gender
         self.active = active
         self.ip_address = ip_address
-        self.created_at = created_at
-        self.updated_at = updated_at

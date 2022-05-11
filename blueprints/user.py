@@ -21,7 +21,7 @@ class UserResource(Resource):
     @jwt_required()
     def get(self):
         parser = reqparse.RequestParser()
-        parser.add_argument('id', location='args')
+        parser.add_argument('id', location='args', required=True)
         args = parser.parse_args()
 
         if args["id"]:
@@ -36,20 +36,20 @@ class UserResource(Resource):
 
     def post(self):
         parser = reqparse.RequestParser()
-        parser.add_argument('email', location='json')
-        parser.add_argument('username', location='json')
-        parser.add_argument('password', location='json')
-        parser.add_argument('fullname', location='json')
-        parser.add_argument('phone', location='json')
-        parser.add_argument('gender', location='json')
+        parser.add_argument('email', location='json', required=True)
+        parser.add_argument('username', location='json', required=True)
+        parser.add_argument('password', location='json', required=True)
+        parser.add_argument('fullname', location='json', required=True)
+        parser.add_argument('phone', location='json', required=True)
+        parser.add_argument('gender', location='json', required=True)
         args = parser.parse_args()
 
         req = User(**args, active=True, ip_address=request.remote_addr)
         try:
             db.session.add(req)
             db.session.commit()
-        except Exception:
-            return {'status':'failed',"result":"Internal Server Error"}, 500, {'Content-Type':'application/json'}
+        except Exception as err:
+            return {'status':'failed',"result":f"Internal Server Error : {err}"}, 500, {'Content-Type':'application/json'}
         return ('', 201)
 
     @jwt_required()
@@ -77,8 +77,8 @@ class UserResource(Resource):
             qry.gender = args["gender"]
             qry.ip_address = request.remote_addr
             db.session.commit()
-        except Exception:
-            return {'status':'failed',"result":"Internal Server Error"}, 500, {'Content-Type':'application/json'}
+        except Exception as err:
+            return {'status':'failed',"result":f"Internal Server Error : {err}"}, 500, {'Content-Type':'application/json'}
         return {"status":"success", "result":marshal(qry, User.response_field)}, 200, {'Content-Type':'application/json'}
 
     @jwt_required()
@@ -98,8 +98,8 @@ class UserResource(Resource):
         try:
             db.session.delete(qry)
             db.session.commit()
-        except Exception:
-            return {'status':'failed',"result":"Internal Server Error"}, 500, {'Content-Type':'application/json'}
+        except Exception as err:
+            return {'status':'failed',"result":f"Internal Server Error : {err}"}, 500, {'Content-Type':'application/json'}
         return ('', 204)
 
     def options(self):
