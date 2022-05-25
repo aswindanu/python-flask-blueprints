@@ -1,1 +1,16 @@
-{'paths': OrderedDict([('/', OrderedDict()), ('/index', OrderedDict([('options', {}), ('get', {})])), ('/detail', OrderedDict([('options', {}), ('get', {})])), ('/crud', OrderedDict([('options', {}), ('get', {}), ('post', {})])), ('/user', OrderedDict([('options', {}), ('get', {}), ('put', {}), ('delete', {}), ('post', {})])), ('/login', OrderedDict([('options', {}), ('get', {}), ('post', {})]))]), 'info': {'title': 'My App', 'version': '1.0.0'}, 'openapi': '3.0.2'}
+{'paths': OrderedDict([('/', OrderedDict()), ('/index', OrderedDict([('options', {}), ('get', {})])), ('/detail', OrderedDict([('options', {}), ('get', {})])), ('/crud', OrderedDict([('options', {}), ('get', {}), ('post', {})])), ('/user', OrderedDict([('options', {}), ('get', {}), ('put', {}), ('delete', {}), ('post', {})])), ('/login', OrderedDict([('options', {}), ('get', {}), ('post', {})]))]), 'info': {'title': 'My App', 'version': '1.0.0'}, 'openapi': '3.0.2'}TRY <function hello at 0x4006986dd0>
+TRY <function View.as_view.<locals>.view at 0x4007188550>
+TRY <function View.as_view.<locals>.view at 0x40071889d0>
+TRY <function View.as_view.<locals>.view at 0x4007189000>
+TRY <function View.as_view.<locals>.view at 0x40071892d0>
+TRY <function View.as_view.<locals>.view at 0x400748bbe0>
+TRY <function View.as_view.<locals>.view at 0x40074a4160>
+{'paths': OrderedDict([('/', OrderedDict()), ('/index', OrderedDict([('get', {}), ('options', {})])), ('/detail', OrderedDict([('get', {}), ('options', {})])), ('/crud', OrderedDict([('post', {}), ('get', {}), ('options', {})])), ('/api/v1/user', OrderedDict([('put', {}), ('get', {}), ('post', {}), ('options', {}), ('delete', {})])), ('/api/v1/login', OrderedDict([('post', {}), ('get', {}), ('options', {})]))]), 'info': {'title': 'My App', 'version': '1.0.0'}, 'openapi': '3.0.2'}
+{'paths': OrderedDict([('/', OrderedDict()), ('/index', OrderedDict([('get', {}), ('options', {})])), ('/detail', OrderedDict([('get', {}), ('options', {})])), ('/crud', OrderedDict([('post', {}), ('get', {}), ('options', {})])), ('/api/v1/user', OrderedDict([('put', {}), ('get', {}), ('post', {}), ('options', {}), ('delete', {})])), ('/api/v1/login', OrderedDict([('post', {}), ('get', {}), ('options', {})]))]), 'info': {'title': 'My App', 'version': '1.0.0'}, 'openapi': '3.0.2'}
+TRY <function hello at 0x40069aadd0>
+TRY <function View.as_view.<locals>.view at 0x40071b0550>
+TRY <function View.as_view.<locals>.view at 0x40071b09d0>
+TRY <function View.as_view.<locals>.view at 0x40071b1000>
+TRY <function View.as_view.<locals>.view at 0x40071b12d0>
+TRY <function View.as_view.<locals>.view at 0x40074bfbe0>
+TRY <function View.as_view.<locals>.view at 0x40074d8160>

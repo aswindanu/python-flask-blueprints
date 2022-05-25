@@ -20,3 +20,7 @@ table, th, td {
 .bgimg {background-image: url("https://www.eatthis.com/wp-content/uploads/sites/4/2021/09/weight-loss.jpg?quality=82&strip=all")}
 
 .text-brown {color: #533a1c;}
+
+.w3-display-topmiddle {
+  top: 20%;
+}

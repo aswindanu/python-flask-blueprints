@@ -12,7 +12,17 @@
 
 <!-- Header / Home-->
 <header class="w3-display-container w3-wide bgimg w3-grayscale-min" id="home">
-  <div class="w3-display-middle w3-text-white w3-center">
+  <div class="w3-display-left w3-center">
+    <h1>This is sample of Flask + MVC</h1>
+    <h2 class="w3-text-amber">Created by aswindanu</h2>
+    <!-- <a href="{{ url_for('index.indexresource')}}"> -->
+    <a href="/api/v1/swagger-docs">
+      <h4> 
+        Click here for API documentation
+      </h4>
+    </a>
+  </div>
+  <div class="w3-display-right w3-center">
     <h2>Your Private Weight Control</h2>
     <h1 class="w3-jumbo">
       <a href="{{ url_for('index.indexresource')}}">

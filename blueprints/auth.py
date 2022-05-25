@@ -61,4 +61,4 @@ class LoginResource(Resource):
     def options(self):
         return {}, 200
 
-api.add_resource(LoginResource, '/login', '/login')
+api.add_resource(LoginResource, '/api/v1/login', '/api/v1/login')

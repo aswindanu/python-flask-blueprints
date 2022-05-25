@@ -106,4 +106,4 @@ class UserResource(Resource):
         return {}, 200
 
 
-api.add_resource(UserResource, '/user', '/user')
+api.add_resource(UserResource, '/api/v1/user', '/api/v1/user')
