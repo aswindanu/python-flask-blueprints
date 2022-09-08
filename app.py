@@ -5,6 +5,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 from flask import Flask, current_app as apps, jsonify
+from flask_cors import CORS, cross_origin
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
@@ -17,10 +18,12 @@ load_dotenv(dotenv_path=env_path)
 
 # Flask APP
 app = Flask(__name__)
+cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 DEBUG = loads(os.getenv("DEBUG").lower())
 app.config['APP_DEBUG'] = DEBUG
 app.config['PROPAGATE_EXCEPTIONS'] = DEBUG
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 # DATABASE
 app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql+psycopg2://{}:{}@{}:{}/{}".format(
