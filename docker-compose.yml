@@ -11,9 +11,9 @@ services:
   #     - database_data:/var/lib/postgresql/data
   #     - ./db/init:/docker-entrypoint-initdb.d
   #   environment:
-  #     POSTGRES_DB: ${POSTGRES_DATABASE?Variable not set}
-  #     POSTGRES_USER: ${POSTGRES_USERNAME?Variable not set}
-  #     POSTGRES_PASSWORD: ${POSTGRES_PASSWORD?Variable not set}
+  #     POSTGRES_DB: ${DATABASE_NAME?Variable not set}
+  #     POSTGRES_USER: ${DATABASE_USERNAME?Variable not set}
+  #     POSTGRES_PASSWORD: ${DATABASE_PASSWORD?Variable not set}
   #     TZ: 'Asia/Jakarta'
 
   api:
@@ -35,11 +35,11 @@ services:
     # depends_on:
     #   - db
     environment:
-      DATABASE_HOST: ${POSTGRES_HOST?Variable not set}
-      DATABASE_PORT: ${POSTGRES_PORT?Variable not set}
-      DATABASE_USERNAME: ${POSTGRES_USERNAME?Variable not set}
-      DATABASE_DATABASE: ${POSTGRES_DATABASE?Variable not set}
-      DATABASE_PASSWORD: ${POSTGRES_PASSWORD?Variable not set}
+      DATABASE_HOST: ${DATABASE_HOST?Variable not set}
+      DATABASE_PORT: ${DATABASE_PORT?Variable not set}
+      DATABASE_USERNAME: ${DATABASE_USERNAME?Variable not set}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD?Variable not set}
+      DATABASE_NAME: ${DATABASE_NAME?Variable not set}
       DATABASE_URL: ${DATABASE_URL?Variable not set}
       JWT_SECRET_KEY: ${JWT_SECRET_KEY?Variable not set}
 

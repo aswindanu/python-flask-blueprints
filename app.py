@@ -57,6 +57,7 @@ app.register_blueprint(bp_crud)
 app.register_blueprint(bp_user)
 app.register_blueprint(bp_auth)
 
+app.app_context().push()
 db.create_all()
 
 
@@ -109,7 +110,7 @@ with app.test_request_context():
             continue
         print(f"Loading swagger docs for function: {fn_name}")
         view_fn = app.view_functions[fn_name]
-        open("DEBUG.txt","a").write(f"TRY {view_fn}\n")
+        # open("DEBUG.txt","a").write(f"TRY {view_fn}\n")
         spec.path(view=view_fn)
 
 # # Flask swagger UI
@@ -117,7 +118,7 @@ from flask_swagger_ui import get_swaggerui_blueprint
 
 @app.route("/api/v1/swagger.json")
 def create_swagger_spec():
-    open("DEBUG.txt","a").write(f"{spec.to_dict()}\n")
+    # open("DEBUG.txt","a").write(f"{spec.to_dict()}\n")
     return jsonify(spec.to_dict())
     filename = os.path.join(apps.root_path, '..', 'swagger.json')
     with open(filename) as test_file:
