@@ -16,7 +16,7 @@ RUN flask db init
 RUN flask db migrate
 RUN flask db upgrade
 
-RUN python model/seed.py
+RUN python infrastructure/model/seed.py
 
 RUN sed -i 's/\r$//' start.sh
 CMD ["sh", "./start.sh"]

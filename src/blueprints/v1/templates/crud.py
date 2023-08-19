@@ -5,8 +5,7 @@ from datetime import date, datetime
 from flask import Blueprint, redirect
 from flask_restful import Resource, Api, reqparse, marshal, inputs, request
 
-from app import db
-from infrastructure.model import Weight
+from infrastructure.model.db_model import db, Weight
 from src import success_template, error_template
 
 

@@ -4,7 +4,7 @@ from flask import Blueprint
 from flask_restful import Api, Resource, reqparse, marshal
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt
 
-from infrastructure.model import User
+from infrastructure.model.db_model import User
 
 
 bp_auth = Blueprint('auth', __name__)

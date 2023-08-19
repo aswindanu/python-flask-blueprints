@@ -5,7 +5,7 @@ from flask import Blueprint, make_response
 from flask_restful import Resource, Api, reqparse, marshal, inputs
 from sqlalchemy import desc
 
-from infrastructure.model import Weight
+from infrastructure.model.db_model import Weight
 from src import success, success_template
 
 

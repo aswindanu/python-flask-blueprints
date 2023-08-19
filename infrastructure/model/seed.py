@@ -1,8 +1,13 @@
 import os
+from pathlib import Path
+from dotenv import load_dotenv
 
 from sqlalchemy import create_engine
+from sqlalchemy.sql import text
 from sqlalchemy.orm import sessionmaker, scoped_session
 
+env_path = Path('.') / '.env'
+load_dotenv(dotenv_path=env_path)
 
 DATABASE_URL = "postgresql+psycopg2://{}:{}@{}:{}/{}".format(
     os.getenv("DB_USERNAME"),
@@ -11,6 +16,7 @@ DATABASE_URL = "postgresql+psycopg2://{}:{}@{}:{}/{}".format(
     os.getenv("DB_PORT"),
     os.getenv("DB_NAME"),
 )
+print("DATABASE URL", DATABASE_URL)
 engine = create_engine(
     DATABASE_URL,
     echo=True
@@ -19,16 +25,14 @@ engine = create_engine(
 Session = scoped_session(sessionmaker(bind=engine))
 
 s = Session()
-s.execute(
-"""
-INSERT INTO "public"."berat_badan" ("id", "max", "min", "margin", "date") VALUES
+s.execute(text("""INSERT INTO "public"."weight" ("id", "max", "min", "margin", "date") VALUES
 (1, 50, 48, 2, '2018-08-18'),
 (2, 51, 50, 1, '2018-08-19'),
 (3, 52, 50, 2, '2018-08-20'),
 (4, 49, 49, 0, '2018-08-21'),
 (5, 50, 49, 1, '2018-08-22');
 
-SELECT setval('berat_badan_id_seq', 6, true);
+SELECT setval('weight_id_seq', 6, true);
 
 INSERT INTO "public"."user" ("id", "email", "username", "password", "fullname", "phone", "gender", "active", "ip_address", "created_at", "updated_at") VALUES
 (1, 'testone@gmail.com', 'testone', 'testone', 'Test One', '08123456781', 'M', TRUE, '127.0.0.1', '2018-08-1 00:00:00', '2018-08-19 00:00:00'),
@@ -38,6 +42,5 @@ INSERT INTO "public"."user" ("id", "email", "username", "password", "fullname", 
 (5, 'testfive@gmail.com', 'testfive', 'testfive', 'Test Five', '08123456785', 'M', TRUE, '127.0.0.1', '2018-08-1 00:00:00', '2018-08-19 00:00:00');
 
 SELECT setval('user_id_seq', 6, true);
-"""
-)
+"""))
 s.commit()

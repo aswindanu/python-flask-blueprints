@@ -8,8 +8,7 @@ from flask_restful import Resource, Api, reqparse, marshal, inputs, request
 from flask_jwt_extended import jwt_required
 from sqlalchemy import desc
 
-from app import db
-from infrastructure.model import User
+from infrastructure.model.db_model import db, User
 
 
 bp_user = Blueprint('user', __name__)

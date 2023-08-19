@@ -4,7 +4,7 @@ import hashlib, datetime
 from flask import Blueprint
 from flask_restful import Resource, Api, reqparse, marshal, inputs, request
 
-from infrastructure.model import Weight
+from infrastructure.model.db_model import Weight
 from src import success_template
 
 bp_detail = Blueprint('detail', __name__)
