@@ -5,9 +5,9 @@ from datetime import date, datetime
 from flask import Blueprint, redirect
 from flask_restful import Resource, Api, reqparse, marshal, inputs, request
 
-from app import db, app
-from model.db_model import Weight
-from util.common import success_template, error_template
+from app import db
+from infrastructure.model import Weight
+from src import success_template, error_template
 
 
 bp_crud = Blueprint('crud', __name__)
