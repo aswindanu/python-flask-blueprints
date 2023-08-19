@@ -1,36 +1,14 @@
 from datetime import date, datetime
 from email.policy import default
 from secrets import choice
-
 import enum
+
 from flask_restful import fields
 
 from app import db
 
 
 # == Model ==
-class BeratBadan(db.Model):
-    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    max = db.Column(db.Integer, nullable=False)
-    min = db.Column(db.Integer, nullable=False)
-    perbedaan = db.Column(db.Integer, nullable=False)
-    tanggal = db.Column(db.Date, default=date.today(),  nullable=False)
-
-    response_field = {
-        'id': fields.Integer,
-        'max': fields.Integer,
-        'min': fields.Integer,
-        'perbedaan': fields.Integer,
-        'tanggal': fields.String,
-    }
-    
-    def __init__(self, max, min, perbedaan, tanggal) -> None:
-        self.max = max
-        self.min = min
-        self.perbedaan = perbedaan
-        self.tanggal = tanggal
-
-
 class User(db.Model):
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     email = db.Column(db.String, nullable=False)
@@ -77,3 +55,25 @@ class User(db.Model):
         self.gender = gender
         self.active = active
         self.ip_address = ip_address
+
+
+class Weight(db.Model):
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    max = db.Column(db.Integer, nullable=False)
+    min = db.Column(db.Integer, nullable=False)
+    margin = db.Column(db.Integer, nullable=False)
+    date = db.Column(db.Date, default=date.today(),  nullable=False)
+
+    response_field = {
+        'id': fields.Integer,
+        'max': fields.Integer,
+        'min': fields.Integer,
+        'margin': fields.Integer,
+        'date': fields.String,
+    }
+    
+    def __init__(self, max, min, margin, date) -> None:
+        self.max = max
+        self.min = min
+        self.margin = margin
+        self.date = date

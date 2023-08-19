@@ -6,7 +6,7 @@ from flask_restful import Resource, Api, reqparse, marshal, inputs
 from sqlalchemy import desc
 
 from app import db, app
-from model.db_model import BeratBadan
+from model.db_model import Weight
 from util.common import success, success_template
 
 
@@ -17,15 +17,15 @@ api = Api(bp_index)
 class IndexResource(Resource):
 
     def get(self):
-        qry = BeratBadan.query
-        qry = qry.order_by(desc(BeratBadan.tanggal))
+        qry = Weight.query
+        qry = qry.order_by(desc(Weight.tanggal))
 
         results = []
         total_max = 0
         total_min = 0
         total_perbedaan = 0
         for row in qry.all():
-            data = marshal(row, BeratBadan.response_field)
+            data = marshal(row, Weight.response_field)
             total_max += data['max']
             total_min += data['min']
             total_perbedaan += data['perbedaan']

@@ -6,7 +6,7 @@ from flask import Blueprint, redirect
 from flask_restful import Resource, Api, reqparse, marshal, inputs, request
 
 from app import db, app
-from model.db_model import BeratBadan
+from model.db_model import Weight
 from util.common import success_template, error_template
 
 
@@ -20,10 +20,10 @@ class CrudResource(Resource):
         parser.add_argument('id', location='args')
         args = parser.parse_args()
 
-        qry = BeratBadan.query.get(args["id"])
+        qry = Weight.query.get(args["id"])
         if not qry:
             return success_template('crud.html', [])
-        return success_template('crud.html', marshal(qry, BeratBadan.response_field))
+        return success_template('crud.html', marshal(qry, Weight.response_field))
 
     def post(self):
         if not request.form['max'] or not request.form['min'] or not request.form['tanggal']:
@@ -43,7 +43,7 @@ class CrudResource(Resource):
             return error_template('crud.html', [], 'Data tanggal should be date', 400)
 
         perbedaan = maximum - minimum
-        berat = BeratBadan(request.form['max'], request.form['min'], perbedaan, tanggal)
+        berat = Weight(request.form['max'], request.form['min'], perbedaan, tanggal)
 
         try:
             db.session.add(berat)
@@ -62,7 +62,7 @@ class EditResource(Resource):
         if not request.form['max'] or not request.form['min'] or not request.form['tanggal']:
             return error_template('crud.html', [], 'All forms should be filled', 400)
 
-        qry = BeratBadan.query.get(request.form["id"])
+        qry = Weight.query.get(request.form["id"])
 
         try:
             if int(request.form['max']) < int(request.form['min']):
@@ -78,7 +78,7 @@ class EditResource(Resource):
             return error_template('crud.html', [], 'Data tanggal should be date', 400)
 
         perbedaan = maximum - minimum
-        berat = BeratBadan(request.form['max'], request.form['min'], perbedaan, tanggal)
+        berat = Weight(request.form['max'], request.form['min'], perbedaan, tanggal)
 
         try:
             qry.max = maximum

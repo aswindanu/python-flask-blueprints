@@ -23,7 +23,7 @@ SET time_zone = "+07:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `berat_badan`
+-- Table structure for table `weight`
 --
 CREATE DATABASE if not EXISTS postgres;
 
@@ -34,11 +34,11 @@ CREATE TABLE "public"."alembic_version" (
 );
 
 -- Squences
-CREATE SEQUENCE IF NOT EXISTS berat_badan_id_seq
+CREATE SEQUENCE IF NOT EXISTS weight_id_seq
 
 -- Table Definition
-CREATE TABLE "public"."berat_badan" (
-    "id" int4 NOT NULL DEFAULT nextval('berat_badan_id_seq'::regclass),
+CREATE TABLE "public"."weight" (
+    "id" int4 NOT NULL DEFAULT nextval('weight_id_seq'::regclass),
     "max" int4 NOT NULL,
     "min" int4 NOT NULL,
     "perbedaan" int4 NOT NULL,
@@ -46,7 +46,7 @@ CREATE TABLE "public"."berat_badan" (
     PRIMARY KEY ("id")
 );
 
-INSERT INTO "public"."berat_badan" ("id", "max", "min", "perbedaan", "tanggal") VALUES
+INSERT INTO "public"."weight" ("id", "max", "min", "perbedaan", "tanggal") VALUES
 (1, 50, 48, 2, '2018-08-18'),
 (2, 51, 50, 1, '2018-08-19'),
 (3, 52, 50, 2, '2018-08-20'),

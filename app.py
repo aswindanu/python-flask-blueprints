@@ -10,7 +10,8 @@ from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
 
-from util.common import success_template
+# import modules
+from src import *
 
 # Load .env Python
 env_path = Path('.') / '.env'
@@ -20,18 +21,19 @@ load_dotenv(dotenv_path=env_path)
 app = Flask(__name__)
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
-DEBUG = loads(os.getenv("DEBUG").lower())
+DEBUG = os.getenv("FLASK_ENV").lower() == "development"
+
 app.config['APP_DEBUG'] = DEBUG
 app.config['PROPAGATE_EXCEPTIONS'] = DEBUG
 app.config['CORS_HEADERS'] = 'Content-Type'
 
 # DATABASE
 app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql+psycopg2://{}:{}@{}:{}/{}".format(
-    os.getenv("DATABASE_USERNAME") or os.getenv("POSTGRES_USERNAME"),
-    os.getenv("DATABASE_PASSWORD") or os.getenv("POSTGRES_PASSWORD"),
-    os.getenv("DATABASE_HOST") or os.getenv("POSTGRES_HOST"),
-    os.getenv("DATABASE_PORT") or os.getenv("POSTGRES_PORT"),
-    os.getenv("DATABASE_DATABASE") or os.getenv("POSTGRES_DATABASE"),
+    os.getenv("DB_USERNAME") or os.getenv("POSTGRES_USERNAME"),
+    os.getenv("DB_PASSWORD") or os.getenv("POSTGRES_PASSWORD"),
+    os.getenv("DB_HOST") or os.getenv("POSTGRES_HOST"),
+    os.getenv("DB_PORT") or os.getenv("POSTGRES_PORT"),
+    os.getenv("DB_NAME") or os.getenv("POSTGRES_DATABASE"),
 )
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET_KEY")  # Change this!
@@ -40,16 +42,10 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 jwt = JWTManager(app)
 
-
+# MODULES
 @app.route('/')
 def hello():
    return success_template('home.html', [])
-
-from blueprints.index import bp_index
-from blueprints.detail import bp_detail
-from blueprints.crud import bp_crud
-from blueprints.user import bp_user
-from blueprints.auth import bp_auth
 
 app.register_blueprint(bp_index)
 app.register_blueprint(bp_detail)
@@ -59,6 +55,9 @@ app.register_blueprint(bp_auth)
 
 app.app_context().push()
 db.create_all()
+
+
+
 
 
 # # ===== FIXME ======

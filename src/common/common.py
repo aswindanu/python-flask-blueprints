@@ -8,8 +8,8 @@ def success(result):
 
 def success_template(html_doc, results):
     headers = {'Content-Type': 'text/html'}
-    return make_response(render_template(html_doc, results=results, title="Berat Badan"), 200, headers)
+    return make_response(render_template(html_doc, results=results, title="Weight"), 200, headers)
 
 def error_template(html_doc, results, message, status_code):
     headers = {'Content-Type': 'text/html'}
-    return make_response(render_template(html_doc, results=results, message=message, title="Berat Badan"), status_code, headers)
+    return make_response(render_template(html_doc, results=results, message=message, title="Weight"), status_code, headers)

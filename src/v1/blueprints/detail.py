@@ -5,7 +5,7 @@ from flask import Blueprint
 from flask_restful import Resource, Api, reqparse, marshal, inputs, request
 
 from app import db, app
-from model.db_model import BeratBadan
+from model.db_model import Weight
 from util.common import success_template
 
 bp_detail = Blueprint('detail', __name__)
@@ -19,9 +19,9 @@ class DetailResource(Resource):
         parser.add_argument('id', location='args', required=True)
         args = parser.parse_args()
 
-        qry = BeratBadan.query.get(args["id"])
+        qry = Weight.query.get(args["id"])
 
-        return success_template('detail.html', marshal(qry, BeratBadan.response_field))
+        return success_template('detail.html', marshal(qry, Weight.response_field))
 
     def options(self):
         return {}, 200
