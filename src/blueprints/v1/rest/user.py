@@ -9,6 +9,7 @@ from flask_jwt_extended import jwt_required
 from sqlalchemy import desc
 
 from infrastructure.model.db_model import db, User
+from internal.util.encrypt import hash_password
 
 
 bp_user = Blueprint('user', __name__)
@@ -42,7 +43,9 @@ class UserResource(Resource):
         parser.add_argument('gender', location='json', required=True)
         args = parser.parse_args()
 
-        req = User(**args, active=True, ip_address=request.remote_addr)
+        password = hash_password(args["password"])
+
+        req = User(**args, password=password, active=True, ip_address=request.remote_addr)
         try:
             db.session.add(req)
             db.session.commit()

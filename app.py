@@ -2,6 +2,7 @@ import os
 import sys
 from json import loads
 from pathlib import Path
+from datetime import timedelta
 from dotenv import load_dotenv
 
 from flask import Flask, current_app as apps, jsonify
@@ -19,10 +20,16 @@ load_dotenv(dotenv_path=env_path)
 app = Flask(__name__)
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
-DEBUG = os.getenv("FLASK_ENV").lower() == "development"
+DEBUG = os.getenv("FLASK_ENV").lower() != "production"
+TOKEN_EXP = os.getenv("TOKEN_EXP") or 1
+REFRESH_TOKEN_EXP = os.getenv("REFRESH_TOKEN_EXP") or 30
 
 app.config['APP_DEBUG'] = DEBUG
 app.config['PROPAGATE_EXCEPTIONS'] = DEBUG
+# app.config['JWT_COOKIE_SECURE'] = not DEBUG
+# app.config['JWT_TOKEN_LOCATION'] = ['cookies']
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=int(TOKEN_EXP))
+app.config['JWT_REFRESH_TOKEN_EXPIRES'] = timedelta(days=int(REFRESH_TOKEN_EXP))
 app.config['CORS_HEADERS'] = 'Content-Type'
 
 # DATABASE
@@ -47,9 +54,7 @@ import src
 def hello():
    return src.success_template('home.html', [])
 
-app.register_blueprint(src.bp_index)
-app.register_blueprint(src.bp_detail)
-app.register_blueprint(src.bp_crud)
+app.register_blueprint(src.bp_weight)
 app.register_blueprint(src.bp_user)
 app.register_blueprint(src.bp_auth)
 

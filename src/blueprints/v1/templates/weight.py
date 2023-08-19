@@ -4,13 +4,69 @@ from datetime import date, datetime
 
 from flask import Blueprint, redirect
 from flask_restful import Resource, Api, reqparse, marshal, inputs, request
+from sqlalchemy import desc
 
 from infrastructure.model.db_model import db, Weight
 from src import success_template, error_template
 
 
-bp_crud = Blueprint('crud', __name__)
-api = Api(bp_crud)
+bp_weight = Blueprint('weight', __name__)
+api = Api(bp_weight)
+
+
+class IndexResource(Resource):
+    def get(self):
+        qry = Weight.query
+        qry = qry.order_by(desc(Weight.date))
+
+        results = []
+        total_max = 0
+        total_min = 0
+        total_margin = 0
+        for row in qry.all():
+            data = marshal(row, Weight.response_field)
+            total_max += data['max']
+            total_min += data['min']
+            total_margin += data['margin']
+            results.append(data)
+
+        try:
+            mean_maximum = total_max / len(results)
+        except ZeroDivisionError:
+            mean_maximum = 0
+        try:
+            mean_miniimum = total_min / len(results)
+        except ZeroDivisionError:
+            mean_miniimum = 0
+        try:
+            mean_margin = total_margin / len(results)
+        except ZeroDivisionError:
+            mean_margin = 0
+        results.append({
+            'date': 'Rata-rata',
+            'max': f'{mean_maximum}',
+            'min': f'{mean_miniimum}',
+            'margin': f'{mean_margin}',
+        })
+
+        return success_template('index.html', results)
+
+    def options(self):
+        return {}, 200
+
+
+class DetailResource(Resource):
+    def get(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('id', location='args', required=True)
+        args = parser.parse_args()
+
+        qry = Weight.query.get(args["id"])
+
+        return success_template('detail.html', marshal(qry, Weight.response_field))
+
+    def options(self):
+        return {}, 200
 
 
 class CrudResource(Resource):
@@ -93,6 +149,8 @@ class EditResource(Resource):
     def options(self):
         return {}, 200
 
-
-api.add_resource(CrudResource, '/crud', '/crud')
-api.add_resource(EditResource, '/crud', '/crud')
+base_uri = "/weight"
+api.add_resource(IndexResource, base_uri + '/index', base_uri + '/index')
+api.add_resource(DetailResource, base_uri + '/detail', base_uri + '/detail')
+api.add_resource(CrudResource, base_uri + '/crud', base_uri + '/crud')
+api.add_resource(EditResource, base_uri + '/crud', base_uri + '/crud')
