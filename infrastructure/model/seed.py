@@ -21,7 +21,7 @@ Session = scoped_session(sessionmaker(bind=engine))
 s = Session()
 s.execute(
 """
-INSERT INTO "public"."berat_badan" ("id", "max", "min", "perbedaan", "tanggal") VALUES
+INSERT INTO "public"."berat_badan" ("id", "max", "min", "margin", "date") VALUES
 (1, 50, 48, 2, '2018-08-18'),
 (2, 51, 50, 1, '2018-08-19'),
 (3, 52, 50, 2, '2018-08-20'),

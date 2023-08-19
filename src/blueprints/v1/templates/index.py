@@ -6,8 +6,8 @@ from flask_restful import Resource, Api, reqparse, marshal, inputs
 from sqlalchemy import desc
 
 from app import db, app
-from model.db_model import Weight
-from util.common import success, success_template
+from infrastructure.model.db_model import Weight
+from src import success, success_template
 
 
 bp_index = Blueprint('index', __name__)
@@ -18,17 +18,17 @@ class IndexResource(Resource):
 
     def get(self):
         qry = Weight.query
-        qry = qry.order_by(desc(Weight.tanggal))
+        qry = qry.order_by(desc(Weight.date))
 
         results = []
         total_max = 0
         total_min = 0
-        total_perbedaan = 0
+        total_margin = 0
         for row in qry.all():
             data = marshal(row, Weight.response_field)
             total_max += data['max']
             total_min += data['min']
-            total_perbedaan += data['perbedaan']
+            total_margin += data['margin']
             results.append(data)
 
         try:
@@ -40,14 +40,14 @@ class IndexResource(Resource):
         except ZeroDivisionError:
             mean_miniimum = 0
         try:
-            mean_perbedaan = total_perbedaan / len(results)
+            mean_margin = total_margin / len(results)
         except ZeroDivisionError:
-            mean_perbedaan = 0
+            mean_margin = 0
         results.append({
-            'tanggal': 'Rata-rata',
+            'date': 'Rata-rata',
             'max': f'{mean_maximum}',
             'min': f'{mean_miniimum}',
-            'perbedaan': f'{mean_perbedaan}',
+            'margin': f'{mean_margin}',
         })
 
         return success_template('index.html', results)

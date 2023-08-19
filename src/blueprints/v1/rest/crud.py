@@ -26,7 +26,7 @@ class CrudResource(Resource):
         return success_template('crud.html', marshal(qry, Weight.response_field))
 
     def post(self):
-        if not request.form['max'] or not request.form['min'] or not request.form['tanggal']:
+        if not request.form['max'] or not request.form['min'] or not request.form['date']:
             return error_template('crud.html', [], 'All forms should be filled', 400)
 
         try:
@@ -38,12 +38,12 @@ class CrudResource(Resource):
             return error_template('crud.html', [], 'Data max / min should be numeric', 400)
     
         try:
-            tanggal = datetime.strptime(request.form['tanggal'], "%Y-%m-%d")
+            date = datetime.strptime(request.form['date'], "%Y-%m-%d")
         except Exception:
-            return error_template('crud.html', [], 'Data tanggal should be date', 400)
+            return error_template('crud.html', [], 'Data date should be date', 400)
 
-        perbedaan = maximum - minimum
-        berat = Weight(request.form['max'], request.form['min'], perbedaan, tanggal)
+        margin = maximum - minimum
+        berat = Weight(request.form['max'], request.form['min'], margin, date)
 
         try:
             db.session.add(berat)
@@ -59,7 +59,7 @@ class CrudResource(Resource):
 
 class EditResource(Resource):
     def post(self):
-        if not request.form['max'] or not request.form['min'] or not request.form['tanggal']:
+        if not request.form['max'] or not request.form['min'] or not request.form['date']:
             return error_template('crud.html', [], 'All forms should be filled', 400)
 
         qry = Weight.query.get(request.form["id"])
@@ -73,18 +73,18 @@ class EditResource(Resource):
             return error_template('crud.html', [], 'Data max / min should be numeric', 400)
     
         try:
-            tanggal = datetime.strptime(request.form['tanggal'], "%Y-%m-%d")
+            date = datetime.strptime(request.form['date'], "%Y-%m-%d")
         except Exception:
-            return error_template('crud.html', [], 'Data tanggal should be date', 400)
+            return error_template('crud.html', [], 'Data date should be date', 400)
 
-        perbedaan = maximum - minimum
-        berat = Weight(request.form['max'], request.form['min'], perbedaan, tanggal)
+        margin = maximum - minimum
+        berat = Weight(request.form['max'], request.form['min'], margin, date)
 
         try:
             qry.max = maximum
             qry.min = minimum
-            qry.perbedaan = perbedaan
-            qry.tanggal = tanggal
+            qry.margin = margin
+            qry.date = date
             db.session.commit()
         except Exception:
             return error_template('crud.html', [], 'Data failed to save', 500)

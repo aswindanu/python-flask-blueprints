@@ -10,9 +10,6 @@ from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
 
-# import modules
-from src import *
-
 # Load .env Python
 env_path = Path('.') / '.env'
 load_dotenv(dotenv_path=env_path)
@@ -43,15 +40,30 @@ migrate = Migrate(app, db)
 jwt = JWTManager(app)
 
 # MODULES
+import src
+# COMMON
+# from src.common.common import *
+
+# # ERROR
+# from src.error.error import *
+
+# # MODULES (v1)
+# from src.v1.templates.index import bp_index
+# from src.v1.templates.detail import bp_detail
+
+# from src.v1.blueprints.crud import bp_crud
+# from src.v1.blueprints.user import bp_user
+# from src.v1.blueprints.auth import bp_auth
+
 @app.route('/')
 def hello():
-   return success_template('home.html', [])
+   return src.success_template('home.html', [])
 
-app.register_blueprint(bp_index)
-app.register_blueprint(bp_detail)
-app.register_blueprint(bp_crud)
-app.register_blueprint(bp_user)
-app.register_blueprint(bp_auth)
+app.register_blueprint(src.bp_index)
+app.register_blueprint(src.bp_detail)
+app.register_blueprint(src.bp_crud)
+app.register_blueprint(src.bp_user)
+app.register_blueprint(src.bp_auth)
 
 app.app_context().push()
 db.create_all()
