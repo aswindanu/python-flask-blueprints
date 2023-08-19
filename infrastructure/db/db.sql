@@ -41,12 +41,12 @@ CREATE TABLE "public"."weight" (
     "id" int4 NOT NULL DEFAULT nextval('weight_id_seq'::regclass),
     "max" int4 NOT NULL,
     "min" int4 NOT NULL,
-    "perbedaan" int4 NOT NULL,
-    "tanggal" date NOT NULL,
+    "margin" int4 NOT NULL,
+    "date" date NOT NULL,
     PRIMARY KEY ("id")
 );
 
-INSERT INTO "public"."weight" ("id", "max", "min", "perbedaan", "tanggal") VALUES
+INSERT INTO "public"."weight" ("id", "max", "min", "margin", "date") VALUES
 (1, 50, 48, 2, '2018-08-18'),
 (2, 51, 50, 1, '2018-08-19'),
 (3, 52, 50, 2, '2018-08-20'),
