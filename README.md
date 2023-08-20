@@ -1,4 +1,4 @@
-# Simple python FLASK
+# Flask Python with CRUD service HexArc Architecture
 
 this project using this kind of library:
 * API Framework : https://www.fullstackpython.com/flask.html
