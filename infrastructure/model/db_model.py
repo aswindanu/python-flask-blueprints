@@ -11,6 +11,7 @@ from app import db
 # == Model ==
 class User(db.Model):
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    language_id = db.Column(db.String, db.ForeignKey('language.id'))
     email = db.Column(db.String, nullable=False)
     username = db.Column(db.String, nullable=False)
     password = db.Column(db.String, nullable=False)
@@ -24,14 +25,15 @@ class User(db.Model):
 
     response_field = {
         'id': fields.Integer,
+        'language_id': fields.Integer,
         'email': fields.String,
         'username': fields.String,
-        'password': fields.String,
+        # 'password': fields.String,
         'fullname': fields.String,
         'phone': fields.String,
         'gender': fields.String,
         'active': fields.Boolean,
-        'ip_address': fields.String,
+        # 'ip_address': fields.String,
         'created_at': fields.DateTime,
         'updated_at': fields.DateTime,
     }
@@ -44,8 +46,8 @@ class User(db.Model):
         fullname,
         phone,
         gender,
-        active,
         ip_address,
+        active=True,
     ) -> None:
         self.email = email
         self.username = username
@@ -77,3 +79,21 @@ class Weight(db.Model):
         self.min = min
         self.margin = margin
         self.date = date
+
+
+class Language(db.Model):
+    id = db.Column(db.String, nullable=False, primary_key=True)
+    language = db.Column(db.String, nullable=False)
+    active = db.Column(db.String, nullable=False, default=True)
+    users = db.relationship('User', backref='language')
+
+    response_field = {
+        'id': fields.String,
+        'language': fields.String,
+        'active': fields.String,
+    }
+
+    def __init__(self, id, language, active=True) -> None:
+        self.id = id
+        self.language = language
+        self.active = active

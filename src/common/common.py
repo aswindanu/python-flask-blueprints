@@ -2,9 +2,13 @@
 Common function    
 """
 from flask import render_template, make_response
+from internal.util.translate import translate
 
-def success(result):
-    return {"status":"success", "result":result}, 200, {'Content-Type':'application/json'}
+
+def response(result, code=200):
+    if code != 200:
+        return {translate(result)}, code, {'Content-Type':'application/json'}
+    return {"status":"success", "result": translate(result)}, code, {'Content-Type':'application/json'}
 
 def success_template(html_doc, results):
     headers = {'Content-Type': 'text/html'}
