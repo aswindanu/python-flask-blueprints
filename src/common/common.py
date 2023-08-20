@@ -8,7 +8,7 @@ from internal.util.translate import translate
 def response(result, code=200, enable_translate=False, content_type='application/json'):
     if enable_translate:
         result = translate(result)
-    if code == 204:
+    if code == 204 or not content_type:
         return (result, code)
     if code != 200:
         return result, code, {'Content-Type': content_type}

@@ -61,7 +61,7 @@ class ParentResource(Resource):
             return response({'status':'failed',"result":f"Internal Server Error : {err}"}, 500, enable_translate=enable_translate, content_type=content_type)
         return response(marshal(qry, self.model.response_field), enable_translate=enable_translate, content_type=content_type)
 
-    def delete_data(self, id: int, enable_translate=False, content_type='application/json'):
+    def delete_data(self, id: int, enable_translate=False, content_type=None):
         enable_translate = enable_translate or self.enable_translate
         if not id:
             return response({'status':'failed',"result":"ID Not Found"}, 404, enable_translate=enable_translate, content_type=content_type)
