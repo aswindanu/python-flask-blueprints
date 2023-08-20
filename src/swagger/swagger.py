@@ -5,12 +5,15 @@ from flask_swagger_ui import get_swaggerui_blueprint
 from flask_swagger_generator.generators import Generator
 from flask_swagger_generator.utils import SecurityType, SwaggerVersion
 
-
+# https://lyz-code.github.io/yamlfix/
+from yamlfix import fix_files
+from yaml import SafeLoader, load, dump
 
 SWAGGER_URL = '/api/docs'  # URL for exposing Swagger UI (without trailing '/')
 # API_URL = 'http://petstore.swagger.io/v2/swagger.json'  # Our API url (can of course be a local resource)
 API_URL = '/static/swagger.yaml'
 SWAGGER_YAML_PATH = 'static/swagger.yaml'
+SWAGGER_YAML_PATH_TMP = 'static/swagger-tmp.yaml'
 
 # SWAGGER UI
 swaggerui_blueprint = get_swaggerui_blueprint(
@@ -31,3 +34,23 @@ swaggerui_blueprint = get_swaggerui_blueprint(
 
 # SWAGGER.YAML GENERATOR
 generator = Generator.of(SwaggerVersion.VERSION_THREE)
+
+# YAMLFIX
+class UniqueKeyLoader(SafeLoader):
+    def construct_mapping(self, node, deep=False):
+        mapping = []
+        for key_node, value_node in node.value:
+            key = self.construct_object(key_node, deep=deep)
+            # open("debug.txt","a").write(f"key {key} value_node{value_node}\n")
+            if key in mapping:
+                continue
+            mapping.append(key)
+        return super().construct_mapping(node, deep)
+
+def generate_yaml():
+    # with fix_files([SWAGGER_YAML_PATH_TMP]):
+    tmp_yaml = open((SWAGGER_YAML_PATH_TMP), 'r').read()
+    new_yaml = open((SWAGGER_YAML_PATH), 'w')
+    text = load(tmp_yaml, Loader=UniqueKeyLoader)
+    # open("debug.txt","a").write(f"{str(text)}\n")
+    dump(text, new_yaml, default_flow_style=False)

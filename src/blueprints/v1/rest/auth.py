@@ -6,12 +6,14 @@ from flask_jwt_extended import (
     jwt_required,
     get_jwt_identity, get_jwt
 )
+from flask_swagger_generator.utils import SecurityType
 
 from infrastructure.model.db_model import User
 from internal.util.auth import token_gen, get_username
 from internal.util.encrypt import validate_password, hash_password
 from internal.service.crud import ParentResource
 from src.common.common import response
+from src.swagger.swagger import generator
 
 
 bp_auth = Blueprint('auth', __name__)
@@ -22,12 +24,48 @@ class LoginResource(ParentResource):
     def __init__(self):
         super().__init__(model=User)
 
+    # Add security, response and request body definitions
+    @generator.security(SecurityType.BEARER_AUTH)
+    @generator.response(status_code=200, schema={
+        "status": "success",
+        "result": {
+            "fresh": False,
+            "iat": 1692523125,
+            "jti": "441a8e0c-b633-4f38-a331-2fdcefa9e80d",
+            "type": "access",
+            "sub": "aswindanu2",
+            "nbf": 1692523125,
+            "exp": 1692526725,
+            "id": 7,
+            "language_id": "id",
+            "email": "aswindanu3@tes.io",
+            "username": "aswindanu2",
+            "fullname": "Aswindanu",
+            "phone": "627839273912",
+            "gender": "M",
+            "active": True,
+            "created_at": "Sat, 19 Aug 2023 17:37:02 -0000",
+            "updated_at": "Sat, 19 Aug 2023 17:37:02 -0000"
+        }
+    })
+    @bp_auth.route('/api/v1/login', methods=['GET'])
     @jwt_required()
     def get(self):
         """get profile"""
         claims = get_jwt()
         return response(claims)
 
+    # Add security, response and request body definitions
+    @generator.response(status_code=200, schema={
+        "status": "success",
+        "result": {
+            "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+            "language": "id",
+            "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        }
+    })
+    @generator.request_body({'email_or_username': 'abc', 'password': 'password'})
+    @bp_auth.route('/api/v1/login', methods=['POST'])
     def post(self):
         """login"""
         parser = reqparse.RequestParser()
@@ -49,6 +87,25 @@ class LoginResource(ParentResource):
         res = token_gen(args['email_or_username'], qry=qry)
         return response(res)
 
+    # Add security, response and request body definitions
+    @generator.security(SecurityType.BEARER_AUTH)
+    @generator.response(status_code=200, schema={
+        "status": "success",
+        "result": {
+            "id": 7,
+            "language_id": "id",
+            "email": "aswindanu3@tes.io",
+            "username": "aswindanu2",
+            "fullname": "Aswindanu",
+            "phone": "627839273912",
+            "gender": "M",
+            "active": True,
+            "created_at": "Sat, 19 Aug 2023 17:37:02 -0000",
+            "updated_at": "Sat, 19 Aug 2023 17:37:02 -0000"
+        }
+    })
+    @generator.request_body({'password': 'password'})
+    @bp_auth.route('/api/v1/login', methods=['PUT'])
     @jwt_required()
     def put(self):
         """Update password"""

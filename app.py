@@ -62,7 +62,10 @@ app.register_blueprint(src.bp_auth)
 app.register_blueprint(src.swaggerui_blueprint)
 
 # SWAGGER generator
-src.generator.generate_swagger(app, destination_path=src.SWAGGER_YAML_PATH)
+src.generator.generate_swagger(app, destination_path=src.SWAGGER_YAML_PATH_TMP)
+
+# YAMLFIX
+src.generate_yaml()
 
 app.app_context().push()
 db.create_all()

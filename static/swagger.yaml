@@ -1,157 +1,279 @@
-openapi: 3.0.1
-info:
-  title: Application
-  description: Generated at 20/08/2023 09:05:08. This is the swagger 
-    ui based on the open api 3.0 specification of the Application
-  version: 1.0.0 created by the flask swagger generator.
+components:
+  requestBodies:
+    post_request_body:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/post'
+      description: None
+      required: true
+    put_request_body:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/put'
+      description: None
+      required: true
+  responses:
+    get_response:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/get_response_schema'
+      description: get response
+    post_response:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/post_response_schema'
+      description: post response
+    put_response:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/put_response_schema'
+      description: put response
+  schemas:
+    get_response_schema:
+      properties:
+        result:
+          $ref: '#/components/schemas/result_get_response_schema'
+        status:
+          example: success
+          type: string
+      type: object
+    post:
+      properties:
+        email_or_username:
+          example: abc
+          type: string
+        password:
+          example: password
+          type: string
+      type: object
+    post_response_schema:
+      properties:
+        result:
+          $ref: '#/components/schemas/result_post_response_schema'
+        status:
+          example: success
+          type: string
+      type: object
+    put:
+      properties:
+        password:
+          example: password
+          type: string
+      type: object
+    put_response_schema:
+      properties:
+        result:
+          $ref: '#/components/schemas/result_put_response_schema'
+        status:
+          example: success
+          type: string
+      type: object
+    result_get_response_schema:
+      properties:
+        active:
+          example: true
+          type: integer
+        created_at:
+          example: Sat, 19 Aug 2023 17:37:02 -0000
+          type: string
+        email:
+          example: aswindanu3@tes.io
+          type: string
+        exp:
+          example: 1692526725
+          type: integer
+        fresh:
+          example: false
+          type: integer
+        fullname:
+          example: Aswindanu
+          type: string
+        gender:
+          example: M
+          type: string
+        iat:
+          example: 1692523125
+          type: integer
+        id:
+          example: 7
+          type: integer
+        jti:
+          example: 441a8e0c-b633-4f38-a331-2fdcefa9e80d
+          type: string
+        language_id:
+          example: id
+          type: string
+        nbf:
+          example: 1692523125
+          type: integer
+        phone:
+          example: 627839273912
+          type: string
+        sub:
+          example: aswindanu2
+          type: string
+        type:
+          example: access
+          type: string
+        updated_at:
+          example: Sat, 19 Aug 2023 17:37:02 -0000
+          type: string
+        username:
+          example: aswindanu2
+          type: string
+      type: object
+    result_post_response_schema:
+      properties:
+        access_token:
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+          type: string
+        language:
+          example: id
+          type: string
+        refresh_token:
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+          type: string
+      type: object
+    result_put_response_schema:
+      properties:
+        active:
+          example: true
+          type: integer
+        created_at:
+          example: Sat, 19 Aug 2023 17:37:02 -0000
+          type: string
+        email:
+          example: aswindanu3@tes.io
+          type: string
+        fullname:
+          example: Aswindanu
+          type: string
+        gender:
+          example: M
+          type: string
+        id:
+          example: 7
+          type: integer
+        language_id:
+          example: id
+          type: string
+        phone:
+          example: 627839273912
+          type: string
+        updated_at:
+          example: Sat, 19 Aug 2023 17:37:02 -0000
+          type: string
+        username:
+          example: aswindanu2
+          type: string
+      type: object
+  securitySchemes:
+    bearerAuth:
+      bearerFormat: JWT
+      scheme: bearer
+      type: http
 externalDocs:
   description: Find out more about Swagger
-  url: 'http://swagger.io'
-servers:
-  - url: '/'
+  url: http://swagger.io
+info:
+  description: Generated at 20/08/2023 10:27:09. This is the swagger ui based on the
+    open api 3.0 specification of the Application
+  title: Application
+  version: 1.0.0 created by the flask swagger generator.
+openapi: 3.0.1
 paths:
-  '/':
+  /:
     get:
+      operationId: hello
       tags:
       - None
-      operationId: 'hello'
-  '/weight/index':
+  /api/docs/:
     get:
-      tags:
-      - weight
-      operationId: 'indexresource'
-    get:
-      tags:
-      - weight
-      operationId: 'indexresource'
-  '/weight/detail':
-    get:
-      tags:
-      - weight
-      operationId: 'detailresource'
-    get:
-      tags:
-      - weight
-      operationId: 'detailresource'
-  '/weight/crud':
-    get:
-      tags:
-      - weight
-      operationId: 'crudresource'
-    post:
-      tags:
-      - weight
-      operationId: 'crudresource'
-    get:
-      tags:
-      - weight
-      operationId: 'crudresource'
-    post:
-      tags:
-      - weight
-      operationId: 'crudresource'
-    post:
-      tags:
-      - weight
-      operationId: 'editresource'
-    post:
-      tags:
-      - weight
-      operationId: 'editresource'
-  '/api/v1/user':
-    put:
-      tags:
-      - user
-      operationId: 'userresource'
-    delete:
-      tags:
-      - user
-      operationId: 'userresource'
-    post:
-      tags:
-      - user
-      operationId: 'userresource'
-    get:
-      tags:
-      - user
-      operationId: 'userresource'
-    put:
-      tags:
-      - user
-      operationId: 'userresource'
-    delete:
-      tags:
-      - user
-      operationId: 'userresource'
-    post:
-      tags:
-      - user
-      operationId: 'userresource'
-    get:
-      tags:
-      - user
-      operationId: 'userresource'
-  '/api/v1/login':
-    put:
-      tags:
-      - auth
-      operationId: 'loginresource'
-    post:
-      tags:
-      - auth
-      operationId: 'loginresource'
-    get:
-      tags:
-      - auth
-      operationId: 'loginresource'
-    put:
-      tags:
-      - auth
-      operationId: 'loginresource'
-    post:
-      tags:
-      - auth
-      operationId: 'loginresource'
-    get:
-      tags:
-      - auth
-      operationId: 'loginresource'
-  '/api/v1/refresh':
-    post:
-      tags:
-      - auth
-      operationId: 'tokenresource'
-    post:
-      tags:
-      - auth
-      operationId: 'tokenresource'
-  '/api/docs/dist/{filename}':
-    get:
+      operationId: show
       tags:
       - swagger_ui
-      operationId: 'static'
+  /api/docs/dist/{filename}:
+    get:
+      operationId: static
       parameters:
-      - in: path
+      - description: None
+        in: path
         name: filename
+        required: true
         schema:
           type: string
-        description: None
-        required: True
-  '/api/docs/{path}':
-    get:
       tags:
       - swagger_ui
-      operationId: 'show'
+  /api/docs/{path}:
+    get:
+      operationId: show
       parameters:
-      - in: path
+      - description: None
+        in: path
         name: path
+        required: true
         schema:
           type: string
-        description: None
-        required: True
-  '/api/docs/':
-    get:
       tags:
       - swagger_ui
-      operationId: 'show'
-components:
+  /api/v1/login:
+    get:
+      operationId: loginresource
+      tags:
+      - auth
+    post:
+      operationId: loginresource
+      tags:
+      - auth
+    put:
+      operationId: loginresource
+      tags:
+      - auth
+  /api/v1/refresh:
+    post:
+      operationId: tokenresource
+      tags:
+      - auth
+  /api/v1/user:
+    delete:
+      operationId: userresource
+      tags:
+      - user
+    get:
+      operationId: userresource
+      tags:
+      - user
+    post:
+      operationId: userresource
+      tags:
+      - user
+    put:
+      operationId: userresource
+      tags:
+      - user
+  /weight/crud:
+    get:
+      operationId: crudresource
+      tags:
+      - weight
+    post:
+      operationId: editresource
+      tags:
+      - weight
+  /weight/detail:
+    get:
+      operationId: detailresource
+      tags:
+      - weight
+  /weight/index:
+    get:
+      operationId: indexresource
+      tags:
+      - weight
+servers:
+- url: /

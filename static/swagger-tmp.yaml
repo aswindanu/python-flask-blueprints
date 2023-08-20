@@ -1,0 +1,364 @@
+openapi: 3.0.1
+info:
+  title: Application
+  description: Generated at 20/08/2023 10:27:09. This is the swagger 
+    ui based on the open api 3.0 specification of the Application
+  version: 1.0.0 created by the flask swagger generator.
+externalDocs:
+  description: Find out more about Swagger
+  url: 'http://swagger.io'
+servers:
+  - url: '/'
+paths:
+  '/':
+    get:
+      tags:
+      - None
+      operationId: 'hello'
+  '/weight/index':
+    get:
+      tags:
+      - weight
+      operationId: 'indexresource'
+    get:
+      tags:
+      - weight
+      operationId: 'indexresource'
+  '/weight/detail':
+    get:
+      tags:
+      - weight
+      operationId: 'detailresource'
+    get:
+      tags:
+      - weight
+      operationId: 'detailresource'
+  '/weight/crud':
+    get:
+      tags:
+      - weight
+      operationId: 'crudresource'
+    post:
+      tags:
+      - weight
+      operationId: 'crudresource'
+    get:
+      tags:
+      - weight
+      operationId: 'crudresource'
+    post:
+      tags:
+      - weight
+      operationId: 'crudresource'
+    post:
+      tags:
+      - weight
+      operationId: 'editresource'
+    post:
+      tags:
+      - weight
+      operationId: 'editresource'
+  '/api/v1/user':
+    get:
+      tags:
+      - user
+      operationId: 'userresource'
+    post:
+      tags:
+      - user
+      operationId: 'userresource'
+    delete:
+      tags:
+      - user
+      operationId: 'userresource'
+    put:
+      tags:
+      - user
+      operationId: 'userresource'
+    get:
+      tags:
+      - user
+      operationId: 'userresource'
+    post:
+      tags:
+      - user
+      operationId: 'userresource'
+    delete:
+      tags:
+      - user
+      operationId: 'userresource'
+    put:
+      tags:
+      - user
+      operationId: 'userresource'
+  '/api/v1/login':
+    get:
+      tags:
+      - auth
+      operationId: 'get'
+      responses:
+        '200':
+          $ref: '#/components/responses/get_response'
+      security:
+        - bearerAuth: []
+    post:
+      tags:
+      - auth
+      operationId: 'post'
+      requestBody:
+        $ref: '#/components/requestBodies/post_request_body' 
+      responses:
+        '200':
+          $ref: '#/components/responses/post_response'
+    put:
+      tags:
+      - auth
+      operationId: 'put'
+      requestBody:
+        $ref: '#/components/requestBodies/put_request_body' 
+      responses:
+        '200':
+          $ref: '#/components/responses/put_response'
+      security:
+        - bearerAuth: []
+    get:
+      tags:
+      - auth
+      operationId: 'loginresource'
+    post:
+      tags:
+      - auth
+      operationId: 'loginresource'
+    put:
+      tags:
+      - auth
+      operationId: 'loginresource'
+    get:
+      tags:
+      - auth
+      operationId: 'loginresource'
+    post:
+      tags:
+      - auth
+      operationId: 'loginresource'
+    put:
+      tags:
+      - auth
+      operationId: 'loginresource'
+  '/api/v1/refresh':
+    post:
+      tags:
+      - auth
+      operationId: 'tokenresource'
+    post:
+      tags:
+      - auth
+      operationId: 'tokenresource'
+  '/api/docs/dist/{filename}':
+    get:
+      tags:
+      - swagger_ui
+      operationId: 'static'
+      parameters:
+      - in: path
+        name: filename
+        schema:
+          type: string
+        description: None
+        required: True
+  '/api/docs/{path}':
+    get:
+      tags:
+      - swagger_ui
+      operationId: 'show'
+      parameters:
+      - in: path
+        name: path
+        schema:
+          type: string
+        description: None
+        required: True
+  '/api/docs/':
+    get:
+      tags:
+      - swagger_ui
+      operationId: 'show'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  requestBodies:
+    post_request_body:
+      description: None
+      required: True
+      content:
+         application/json:
+             schema:
+                 $ref: '#/components/schemas/post'
+    put_request_body:
+      description: None
+      required: True
+      content:
+         application/json:
+             schema:
+                 $ref: '#/components/schemas/put'
+  responses:
+    get_response:
+      description: get response
+      content:
+         application/json:
+             schema:
+                 $ref: '#/components/schemas/get_response_schema'
+    post_response:
+      description: post response
+      content:
+         application/json:
+             schema:
+                 $ref: '#/components/schemas/post_response_schema'
+    put_response:
+      description: put response
+      content:
+         application/json:
+             schema:
+                 $ref: '#/components/schemas/put_response_schema'
+  schemas:
+    get_response_schema:
+      type: object
+      properties:
+        status:
+          type: string  
+          example: success  
+        result:
+          $ref: "#/components/schemas/result_get_response_schema"  
+    result_get_response_schema:
+      type: object
+      properties:
+        fresh:
+          type: integer  
+          example: False  
+        iat:
+          type: integer  
+          example: 1692523125  
+        jti:
+          type: string  
+          example: 441a8e0c-b633-4f38-a331-2fdcefa9e80d  
+        type:
+          type: string  
+          example: access  
+        sub:
+          type: string  
+          example: aswindanu2  
+        nbf:
+          type: integer  
+          example: 1692523125  
+        exp:
+          type: integer  
+          example: 1692526725  
+        id:
+          type: integer  
+          example: 7  
+        language_id:
+          type: string  
+          example: id  
+        email:
+          type: string  
+          example: aswindanu3@tes.io  
+        username:
+          type: string  
+          example: aswindanu2  
+        fullname:
+          type: string  
+          example: Aswindanu  
+        phone:
+          type: string  
+          example: 627839273912  
+        gender:
+          type: string  
+          example: M  
+        active:
+          type: integer  
+          example: True  
+        created_at:
+          type: string  
+          example: Sat, 19 Aug 2023 17:37:02 -0000  
+        updated_at:
+          type: string  
+          example: Sat, 19 Aug 2023 17:37:02 -0000  
+    post:
+      type: object
+      properties:
+        email_or_username:
+          type: string  
+          example: abc  
+        password:
+          type: string  
+          example: password  
+    post_response_schema:
+      type: object
+      properties:
+        status:
+          type: string  
+          example: success  
+        result:
+          $ref: "#/components/schemas/result_post_response_schema"  
+    result_post_response_schema:
+      type: object
+      properties:
+        access_token:
+          type: string  
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...  
+        language:
+          type: string  
+          example: id  
+        refresh_token:
+          type: string  
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...  
+    put:
+      type: object
+      properties:
+        password:
+          type: string  
+          example: password  
+    put_response_schema:
+      type: object
+      properties:
+        status:
+          type: string  
+          example: success  
+        result:
+          $ref: "#/components/schemas/result_put_response_schema"  
+    result_put_response_schema:
+      type: object
+      properties:
+        id:
+          type: integer  
+          example: 7  
+        language_id:
+          type: string  
+          example: id  
+        email:
+          type: string  
+          example: aswindanu3@tes.io  
+        username:
+          type: string  
+          example: aswindanu2  
+        fullname:
+          type: string  
+          example: Aswindanu  
+        phone:
+          type: string  
+          example: 627839273912  
+        gender:
+          type: string  
+          example: M  
+        active:
+          type: integer  
+          example: True  
+        created_at:
+          type: string  
+          example: Sat, 19 Aug 2023 17:37:02 -0000  
+        updated_at:
+          type: string  
+          example: Sat, 19 Aug 2023 17:37:02 -0000  
