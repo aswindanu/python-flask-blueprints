@@ -33,6 +33,7 @@ class UserResource(ParentResource):
 
     def post(self):
         parser = reqparse.RequestParser()
+        parser.add_argument('language_id', location='json', required=True)
         parser.add_argument('email', location='json', required=True)
         parser.add_argument('username', location='json', required=True)
         parser.add_argument('password', location='json', required=True)
@@ -51,9 +52,9 @@ class UserResource(ParentResource):
     def put(self):
         parser = reqparse.RequestParser()
         parser.add_argument('id', location='args', required=True)
+        parser.add_argument('language_id', location='json', required=True)
         parser.add_argument('email', location='json', required=True)
         parser.add_argument('username', location='json', required=True)
-        parser.add_argument('password', location='json', required=True)
         parser.add_argument('fullname', location='json', required=True)
         parser.add_argument('phone', location='json', required=True)
         parser.add_argument('gender', location='json', required=True)
@@ -64,7 +65,6 @@ class UserResource(ParentResource):
         qry = User.query.get(args["id"])
         if not qry:
             return response({'status':'failed',"result":"ID Not Found"}, 404)
-        args["password"] = hash_password(args["password"])
         args["ip_address"] = request.remote_addr
 
         return super().update_data(qry.id, args)
@@ -72,7 +72,7 @@ class UserResource(ParentResource):
     @jwt_required()
     def delete(self):
         parser = reqparse.RequestParser()
-        parser.add_argument('id', location='json', required=True)
+        parser.add_argument('id', location='args', required=True)
         args = parser.parse_args()
 
         return super().delete_data(args["id"])

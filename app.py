@@ -28,9 +28,9 @@ app.config['APP_DEBUG'] = DEBUG
 app.config['PROPAGATE_EXCEPTIONS'] = DEBUG
 # app.config['JWT_COOKIE_SECURE'] = not DEBUG
 # app.config['JWT_TOKEN_LOCATION'] = ['cookies']
+# app.config['CORS_HEADERS'] = 'Content-Type'
 app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=int(TOKEN_EXP))
 app.config['JWT_REFRESH_TOKEN_EXPIRES'] = timedelta(days=int(REFRESH_TOKEN_EXP))
-app.config['CORS_HEADERS'] = 'Content-Type'
 
 # DATABASE
 app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql+psycopg2://{}:{}@{}:{}/{}".format(

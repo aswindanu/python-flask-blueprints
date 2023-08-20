@@ -4,7 +4,7 @@ import bcrypt
 def hash_password(password):
     password = password.encode("utf-8")
     salt = bcrypt.gensalt()
-    return str(bcrypt.hashpw(password, salt))
+    return bcrypt.hashpw(password, salt).decode("utf-8")
 
 def validate_password(password, hashed):
     password = password.encode("utf-8")

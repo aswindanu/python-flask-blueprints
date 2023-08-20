@@ -34,6 +34,12 @@ s.execute(text("""INSERT INTO "public"."weight" ("id", "max", "min", "margin", "
 
 SELECT setval('weight_id_seq', 6, true);
 
+INSERT INTO "public"."language" ("id", "language", "active") VALUES
+('en', 'English', TRUE),
+('id', 'Indonesia', TRUE),
+('my', 'Malaysia', TRUE),
+('sg', 'Singapore', TRUE);
+
 -- password hash is same as 'username'
 INSERT INTO "public"."user" ("id", "email", "username", "password", "fullname", "phone", "gender", "active", "ip_address", "created_at", "updated_at") VALUES
 (1, 'testone@gmail.com', 'testone', '$2b$12$M1NfYZ9nLl6fHSGa4TDxHOGOEq96TUkTvceQbuCDL31t50lJblXzu', 'Test One', '08123456781', 'M', TRUE, '127.0.0.1', '2018-08-1 00:00:00', '2018-08-19 00:00:00'),

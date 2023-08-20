@@ -5,10 +5,14 @@ from flask import render_template, make_response
 from internal.util.translate import translate
 
 
-def response(result, code=200):
+def response(result, code=200, enable_translate=False, content_type='application/json'):
+    if enable_translate:
+        result = translate(result)
+    if code == 204:
+        return (result, code)
     if code != 200:
-        return {translate(result)}, code, {'Content-Type':'application/json'}
-    return {"status":"success", "result": translate(result)}, code, {'Content-Type':'application/json'}
+        return result, code, {'Content-Type': content_type}
+    return {"status":"success", "result": result}, code, {'Content-Type': content_type}
 
 def success_template(html_doc, results):
     headers = {'Content-Type': 'text/html'}

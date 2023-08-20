@@ -46,9 +46,45 @@ CREATE TABLE "public"."weight" (
     PRIMARY KEY ("id")
 );
 
-INSERT INTO "public"."weight" ("id", "max", "min", "margin", "date") VALUES
-(1, 50, 48, 2, '2018-08-18'),
-(2, 51, 50, 1, '2018-08-19'),
-(3, 52, 50, 2, '2018-08-20'),
-(4, 49, 49, 0, '2018-08-21'),
-(5, 50, 49, 1, '2018-08-22');
+-- public."language" definition
+
+-- Drop table
+
+-- DROP TABLE public."language";
+
+CREATE TABLE public."language" (
+	id varchar NOT NULL,
+	"language" varchar NOT NULL,
+	active varchar NOT NULL,
+	CONSTRAINT language_pkey PRIMARY KEY (id)
+);
+
+
+-- public."language" foreign keys
+
+-- public."user" definition
+
+-- Drop table
+
+-- DROP TABLE public."user";
+
+CREATE TABLE public."user" (
+	id serial4 NOT NULL,
+	email varchar NOT NULL UNIQUE,
+	username varchar NOT NULL,
+	"password" varchar NOT NULL,
+	fullname varchar NOT NULL,
+	phone varchar NOT NULL,
+	gender public.gender_types NOT NULL,
+	active bool NOT NULL,
+	ip_address varchar NOT NULL,
+	created_at timestamp NULL,
+	updated_at timestamp NULL,
+	language_id varchar NULL,
+	CONSTRAINT user_pkey PRIMARY KEY (id)
+);
+
+
+-- public."user" foreign keys
+
+ALTER TABLE public."user" ADD CONSTRAINT user_language_id_fkey FOREIGN KEY (language_id) REFERENCES public."language"(id);
