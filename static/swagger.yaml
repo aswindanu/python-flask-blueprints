@@ -1,0 +1,157 @@
+openapi: 3.0.1
+info:
+  title: Application
+  description: Generated at 20/08/2023 09:05:08. This is the swagger 
+    ui based on the open api 3.0 specification of the Application
+  version: 1.0.0 created by the flask swagger generator.
+externalDocs:
+  description: Find out more about Swagger
+  url: 'http://swagger.io'
+servers:
+  - url: '/'
+paths:
+  '/':
+    get:
+      tags:
+      - None
+      operationId: 'hello'
+  '/weight/index':
+    get:
+      tags:
+      - weight
+      operationId: 'indexresource'
+    get:
+      tags:
+      - weight
+      operationId: 'indexresource'
+  '/weight/detail':
+    get:
+      tags:
+      - weight
+      operationId: 'detailresource'
+    get:
+      tags:
+      - weight
+      operationId: 'detailresource'
+  '/weight/crud':
+    get:
+      tags:
+      - weight
+      operationId: 'crudresource'
+    post:
+      tags:
+      - weight
+      operationId: 'crudresource'
+    get:
+      tags:
+      - weight
+      operationId: 'crudresource'
+    post:
+      tags:
+      - weight
+      operationId: 'crudresource'
+    post:
+      tags:
+      - weight
+      operationId: 'editresource'
+    post:
+      tags:
+      - weight
+      operationId: 'editresource'
+  '/api/v1/user':
+    put:
+      tags:
+      - user
+      operationId: 'userresource'
+    delete:
+      tags:
+      - user
+      operationId: 'userresource'
+    post:
+      tags:
+      - user
+      operationId: 'userresource'
+    get:
+      tags:
+      - user
+      operationId: 'userresource'
+    put:
+      tags:
+      - user
+      operationId: 'userresource'
+    delete:
+      tags:
+      - user
+      operationId: 'userresource'
+    post:
+      tags:
+      - user
+      operationId: 'userresource'
+    get:
+      tags:
+      - user
+      operationId: 'userresource'
+  '/api/v1/login':
+    put:
+      tags:
+      - auth
+      operationId: 'loginresource'
+    post:
+      tags:
+      - auth
+      operationId: 'loginresource'
+    get:
+      tags:
+      - auth
+      operationId: 'loginresource'
+    put:
+      tags:
+      - auth
+      operationId: 'loginresource'
+    post:
+      tags:
+      - auth
+      operationId: 'loginresource'
+    get:
+      tags:
+      - auth
+      operationId: 'loginresource'
+  '/api/v1/refresh':
+    post:
+      tags:
+      - auth
+      operationId: 'tokenresource'
+    post:
+      tags:
+      - auth
+      operationId: 'tokenresource'
+  '/api/docs/dist/{filename}':
+    get:
+      tags:
+      - swagger_ui
+      operationId: 'static'
+      parameters:
+      - in: path
+        name: filename
+        schema:
+          type: string
+        description: None
+        required: True
+  '/api/docs/{path}':
+    get:
+      tags:
+      - swagger_ui
+      operationId: 'show'
+      parameters:
+      - in: path
+        name: path
+        schema:
+          type: string
+        description: None
+        required: True
+  '/api/docs/':
+    get:
+      tags:
+      - swagger_ui
+      operationId: 'show'
+components:

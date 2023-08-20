@@ -28,21 +28,6 @@ class LoginResource(ParentResource):
         claims = get_jwt()
         return response(claims)
 
-    @jwt_required()
-    def patch(self):
-        """Update password"""
-        parser = reqparse.RequestParser()
-        parser.add_argument('password', location='json', required=True)
-        args = parser.parse_args()
-
-        qry = User.query.filter_by(username=get_username()).first()
-        if not qry:
-            return response({'status':'failed',"result":"ID Not Found"}, 404)
-        args["password"] = hash_password(args["password"])
-        args["ip_address"] = request.remote_addr
-
-        return super().update_data(qry.id, args)
-
     def post(self):
         """login"""
         parser = reqparse.RequestParser()
@@ -63,6 +48,21 @@ class LoginResource(ParentResource):
             return response({'status':'failed', 'result': 'UNAUTHORIZED | invalid key or secret'}, 401)
         res = token_gen(args['email_or_username'], qry=qry)
         return response(res)
+
+    @jwt_required()
+    def put(self):
+        """Update password"""
+        parser = reqparse.RequestParser()
+        parser.add_argument('password', location='json', required=True)
+        args = parser.parse_args()
+
+        qry = User.query.filter_by(username=get_username()).first()
+        if not qry:
+            return response({'status':'failed',"result":"ID Not Found"}, 404)
+        args["password"] = hash_password(args["password"])
+        args["ip_address"] = request.remote_addr
+
+        return super().update_data(qry.id, args)
 
     def options(self):
         return {}, 200

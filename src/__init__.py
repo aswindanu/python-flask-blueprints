@@ -4,6 +4,9 @@ from .common.common import *
 # ERROR
 from .error.error import *
 
+# SWAGGER
+from .swagger.swagger import *
+
 # MODULES (v1)
 from .blueprints.v1.templates.weight import bp_weight
 
