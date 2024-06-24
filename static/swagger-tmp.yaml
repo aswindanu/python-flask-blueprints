@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: Application
-  description: Generated at 24/06/2024 07:34:01. This is the swagger 
+  description: Generated at 24/06/2024 07:39:29. This is the swagger 
     ui based on the open api 3.0 specification of the Application
   version: 1.0.0 created by the flask swagger generator.
 externalDocs:
@@ -59,15 +59,15 @@ paths:
       - weight
       operationId: 'editresource'
   '/api/v1/user':
-    delete:
-      tags:
-      - user
-      operationId: 'userresource'
     post:
       tags:
       - user
       operationId: 'userresource'
     put:
+      tags:
+      - user
+      operationId: 'userresource'
+    delete:
       tags:
       - user
       operationId: 'userresource'
@@ -75,15 +75,15 @@ paths:
       tags:
       - user
       operationId: 'userresource'
-    delete:
-      tags:
-      - user
-      operationId: 'userresource'
     post:
       tags:
       - user
       operationId: 'userresource'
     put:
+      tags:
+      - user
+      operationId: 'userresource'
+    delete:
       tags:
       - user
       operationId: 'userresource'

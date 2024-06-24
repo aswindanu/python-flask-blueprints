@@ -8,12 +8,8 @@ from flask_swagger_generator.utils import SecurityType, SwaggerVersion
 # https://lyz-code.github.io/yamlfix/
 from yamlfix import fix_files
 from yaml import SafeLoader, load, dump
+from config.config import API_URL, SWAGGER_URL, SWAGGER_YAML_PATH, SWAGGER_YAML_PATH_TMP
 
-SWAGGER_URL = '/api/docs'  # URL for exposing Swagger UI (without trailing '/')
-# API_URL = 'http://petstore.swagger.io/v2/swagger.json'  # Our API url (can of course be a local resource)
-API_URL = '/static/swagger.yaml'
-SWAGGER_YAML_PATH = 'static/swagger.yaml'
-SWAGGER_YAML_PATH_TMP = 'static/swagger-tmp.yaml'
 
 # SWAGGER UI
 swaggerui_blueprint = get_swaggerui_blueprint(
