@@ -18,8 +18,7 @@ RUN flask db upgrade
 
 RUN python infrastructure/model/seed.py || true
 
-RUN sed -i 's/\r$//' start.sh
-CMD ["sh", "./start.sh"]
-# CMD ["tail", "-f", "/dev/null"]
+RUN sed -i 's/\r$//' start_dev.sh
+CMD ["sh", "./start_dev.sh"]
 
 EXPOSE 5001

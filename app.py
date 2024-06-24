@@ -1,5 +1,4 @@
 import os
-import sys
 from json import loads
 from pathlib import Path
 from datetime import timedelta
@@ -17,6 +16,8 @@ from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
 
+from config.config import DEBUG, TOKEN_EXP, REFRESH_TOKEN_EXP
+
 
 # Load .env Python
 env_path = Path('.') / '.env'
@@ -25,10 +26,6 @@ load_dotenv(dotenv_path=env_path)
 # Flask APP
 app = Flask(__name__)
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
-
-DEBUG = os.getenv("FLASK_ENV").lower() != "production"
-TOKEN_EXP = os.getenv("TOKEN_EXP") or 1
-REFRESH_TOKEN_EXP = os.getenv("REFRESH_TOKEN_EXP") or 30
 
 app.config['APP_DEBUG'] = DEBUG
 app.config['PROPAGATE_EXCEPTIONS'] = DEBUG
@@ -53,25 +50,7 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 jwt = JWTManager(app)
 
-# MODULES
-import src
-
-@app.route('/')
-def hello():
-   return redirect(url_for("swagger_ui.show"))
-
-app.register_blueprint(src.bp_weight)
-app.register_blueprint(src.bp_user)
-app.register_blueprint(src.bp_auth)
-
-# SWAGGER UI
-app.register_blueprint(src.swaggerui_blueprint)
-
-# SWAGGER generator
-src.generator.generate_swagger(app, destination_path=src.SWAGGER_YAML_PATH_TMP)
-
-# YAMLFIX
-src.generate_yaml()
+from route import *
 
 app.app_context().push()
 db.create_all()

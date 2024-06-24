@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: Application
-  description: Generated at 24/06/2024 07:39:29. This is the swagger 
+  description: Generated at 24/06/2024 10:56:35. This is the swagger 
     ui based on the open api 3.0 specification of the Application
   version: 1.0.0 created by the flask swagger generator.
 externalDocs:
@@ -15,6 +15,15 @@ paths:
       tags:
       - None
       operationId: 'hello'
+  '/weight/home':
+    get:
+      tags:
+      - weight
+      operationId: 'homeresource'
+    get:
+      tags:
+      - weight
+      operationId: 'homeresource'
   '/weight/index':
     get:
       tags:
@@ -34,10 +43,6 @@ paths:
       - weight
       operationId: 'detailresource'
   '/weight/crud':
-    post:
-      tags:
-      - weight
-      operationId: 'crudresource'
     get:
       tags:
       - weight
@@ -47,6 +52,10 @@ paths:
       - weight
       operationId: 'crudresource'
     get:
+      tags:
+      - weight
+      operationId: 'crudresource'
+    post:
       tags:
       - weight
       operationId: 'crudresource'
@@ -59,15 +68,15 @@ paths:
       - weight
       operationId: 'editresource'
   '/api/v1/user':
-    post:
-      tags:
-      - user
-      operationId: 'userresource'
     put:
       tags:
       - user
       operationId: 'userresource'
     delete:
+      tags:
+      - user
+      operationId: 'userresource'
+    post:
       tags:
       - user
       operationId: 'userresource'
@@ -75,15 +84,15 @@ paths:
       tags:
       - user
       operationId: 'userresource'
-    post:
-      tags:
-      - user
-      operationId: 'userresource'
     put:
       tags:
       - user
       operationId: 'userresource'
     delete:
+      tags:
+      - user
+      operationId: 'userresource'
+    post:
       tags:
       - user
       operationId: 'userresource'
@@ -121,11 +130,11 @@ paths:
           $ref: '#/components/responses/put_response'
       security:
         - bearerAuth: []
-    post:
+    put:
       tags:
       - auth
       operationId: 'loginresource'
-    put:
+    post:
       tags:
       - auth
       operationId: 'loginresource'
@@ -133,11 +142,11 @@ paths:
       tags:
       - auth
       operationId: 'loginresource'
-    post:
+    put:
       tags:
       - auth
       operationId: 'loginresource'
-    put:
+    post:
       tags:
       - auth
       operationId: 'loginresource'

@@ -8,7 +8,6 @@ from .error.error import *
 from .swagger.swagger import *
 
 # MODULES (v1)
-from .blueprints.v1.templates.weight import bp_weight
-
-from .blueprints.v1.rest.user import bp_user
-from .blueprints.v1.rest.auth import bp_auth
+from .blueprints.v1.user.auth import bp_auth
+from .blueprints.v1.user.user import bp_user
+from .blueprints.v1.weight.weight import bp_weight

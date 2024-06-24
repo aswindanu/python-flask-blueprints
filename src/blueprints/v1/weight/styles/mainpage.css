@@ -1,0 +1,26 @@
+body,h1,h2{font-family: "Raleway", sans-serif; color: #533a1c;}
+
+body, html {height: 100%}
+
+p {line-height: 2}
+
+table, th, td {
+  border:1px solid black; color: #533a1c;
+  font-size: small;
+  font-family: monospace;
+  font-weight: bolder;
+}
+
+.bgimg, .bgimg2 {
+  min-height: 100%;
+  background-position: center;
+  background-size: cover;
+}
+
+.bgimg {background-image: url("https://www.eatthis.com/wp-content/uploads/sites/4/2021/09/weight-loss.jpg?quality=82&strip=all")}
+
+.text-brown {color: #533a1c;}
+
+.w3-display-topmiddle {
+  top: 20%;
+}
