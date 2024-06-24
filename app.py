@@ -5,7 +5,13 @@ from pathlib import Path
 from datetime import timedelta
 from dotenv import load_dotenv
 
-from flask import Flask, current_app as apps, jsonify
+from flask import (
+    Flask, 
+    current_app as apps, 
+    jsonify, 
+    redirect, 
+    url_for
+)
 from flask_cors import CORS, cross_origin
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
@@ -52,7 +58,7 @@ import src
 
 @app.route('/')
 def hello():
-   return src.success_template('home.html', [])
+   return redirect(url_for("swagger_ui.show"))
 
 app.register_blueprint(src.bp_weight)
 app.register_blueprint(src.bp_user)
