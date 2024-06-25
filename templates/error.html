@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Details{% endblock %}
+
+{% block head %}
+  {{ super() }}
+  <style type="text/css">
+    .important { color: #336699; }
+  </style>
+{% endblock %}
+
+{% block content %}
+<header class="w3-display-container w3-wide bgimg w3-grayscale-min" id="home">
+  <div class="w3-display-middle w3-center">
+    {{ message }}
+  </div>
+  <div>
+    <a href="{{ url_for('weight.homeresource')}}">
+      Back to Home
+    </a>
+  </div>
+</header>
+{% endblock %}

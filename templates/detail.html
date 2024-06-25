@@ -16,19 +16,19 @@
       <table >
         <tr>
           <th>ID</th>
-          <th>Tanggal</th>
-          <th>Max</th>
-          <th>Min</th>
-          <th>Perbedaan</th>
-          <th>Edit</th>
+          <th>Date</th>
+          <th>Weight</th>
+          <th>Weight Loss</th>
+          <th>Status</th>
+          <th>Tools</th>
         </tr>
 
         <tr>
           <td>{{ results.id }}</td>
           <td>{{ results.date }}</td>
-          <td>{{ results.max }}</td>
-          <td>{{ results.min }}</td>
-          <td>{{ results.margin }}</td>
+          <td>{{ results.weight }}kg</td>
+          <td>{{ results.loss }}kg</td>
+          <td>{{ results.status }}</td>
           <td>
             <a href="{{ url_for('weight.crudresource')}}?id={{ results.id }}">
               edit
