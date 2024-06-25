@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Details{% endblock %}
+
+{% block head %}
+  {{ super() }}
+  <style type="text/css">
+    .important { color: #336699; }
+  </style>
+{% endblock %}
+
+{% block content %}
+<header class="w3-display-container w3-wide bgimg w3-grayscale-min" id="home">
+  <div class="w3-display-middle w3-center">
+    <h2>Edit Data</h2><h2>ID {{results.id}}</h2>
+    {{ message }}
+    <form action="{{ url_for('weight.editresource') }}" method="post">
+      <input type="hidden" id="id" name="id" value="{{ results.id }}"><br>
+      <label class="text-brown" for="date">Date:</label><br>
+      <input type="text" id="date" name="date" value="{{ results.date }}"><br>
+      <label class="text-brown" for="max">Weight:</label><br>
+      <input type="text" id="weight" name="weight" value="{{ results.weight }}"><br>
+      <input type="submit" value="Submit">
+    </form>
+  </div>
+  <div>
+    <a href="{{ url_for('weight.homeresource')}}">
+      Back to Home
+    </a>
+  </div>
+</header>
+{% endblock %}

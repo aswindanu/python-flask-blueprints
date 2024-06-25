@@ -1,23 +1,45 @@
-body,h1,h2{font-family: "Raleway", sans-serif; color: #533a1c;}
-
-body, html {height: 100%}
-
-p {line-height: 2}
-
-table, th, td {
-  border:1px solid black; color: #533a1c;
-  font-size: small;
-  font-family: monospace;
-  font-weight: bolder;
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  /* font-family: "Raleway", sans-serif; */
+  font-family: ui-monospace;
+  color: #533a1c;
 }
 
-.bgimg, .bgimg2 {
+body,
+html {
+  height: 100%;
+}
+
+p {
+  line-height: 2;
+}
+
+table,
+th,
+td {
+  outline: 1px solid rgba(70, 68, 68, 0.435);
+  color: #533a1c;
+  min-width: 75px;
+  background-color: #ddd3c6a3;
+  font-size: small;
+  text-wrap: nowrap;
+}
+
+.bgimg,
+.bgimg2 {
   min-height: 100%;
   background-position: center;
   background-size: cover;
 }
 
-.text-brown {color: #533a1c;}
+.text-brown {
+  color: #533a1c;
+}
 
 .w3-display-topmiddle {
   top: 20%;
@@ -27,4 +49,43 @@ table, th, td {
   background-image: url(https://www.eatthis.com/wp-content/uploads/sites/4/2021/09/weight-loss.jpg?quality=82&strip=all);
   height: 100%;
   background-position-x: 15%;
+  width: 50%;
+}
+
+.w3-display-right {
+  position: absolute;
+  left: 50%;
+  height: 100%;
+  width: 50%;
+}
+
+.home-create-weight {
+  position: relative;
+  top: 35%;
+}
+
+.navbar-sticky {
+  display: flex;
+  font-size: smaller;
+  justify-content: space-between;
+}
+
+.navbar-sticky-left {
+  width: -webkit-fill-available;
+  text-align: left;
+}
+.navbar-sticky-right {
+  width: -webkit-fill-available;
+  text-align: right;
+}
+
+.swagger-docs {
+  bottom: 3%;
+  position: absolute;
+  font-size: smaller;
+}
+
+.footer {
+  background-color: #9e7f5694;
+  color: white;
 }

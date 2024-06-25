@@ -100,30 +100,40 @@ class Profile(db.Model):
         self.profile_code = args.get("profile_code", self.profile_code)
 
 class Weight(db.Model):
+    WEIGHT_STATUS = {
+        # "nice", "keep it up", "normal", "need diet", "fat!"
+        # max weight: status
+        40: "nice",
+        60: "keep it up",
+        70: "normal",
+        90: "need diet",
+        9999: "fat!",
+    }
+
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    max = db.Column(db.Integer, nullable=False)
-    min = db.Column(db.Integer, nullable=False)
-    margin = db.Column(db.Integer, nullable=False)
+    weight = db.Column(db.Integer, nullable=False)
+    loss = db.Column(db.Integer, nullable=False)
+    status = db.Column(db.Enum(*WEIGHT_STATUS.values(), name='weight_status'), nullable=False)
     date = db.Column(db.Date, default=date.today(),  nullable=False)
 
     response_field = {
         'id': fields.Integer,
-        'max': fields.Integer,
-        'min': fields.Integer,
-        'margin': fields.Integer,
+        'weight': fields.Integer,
+        'loss': fields.Integer,
+        'status': fields.String,
         'date': fields.String,
     }
-    
-    def __init__(self, max, min, margin, date) -> None:
-        self.max = max
-        self.min = min
-        self.margin = margin
+
+    def __init__(self, weight, loss, status, date) -> None:
+        self.weight = weight
+        self.loss = loss
+        self.status = status
         self.date = date
 
     def update(self, args):
-        self.max = args.get("max", self.max)
-        self.min = args.get("min", self.min)
-        self.margin = args.get("margin", self.margin)
+        self.weight = args.get("weight", self.weight)
+        self.loss = args.get("loss", self.loss)
+        self.status = args.get("status", self.status)
         self.date = args.get("date", self.date)
 
 

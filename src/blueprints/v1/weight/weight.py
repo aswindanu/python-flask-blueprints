@@ -4,7 +4,7 @@ from datetime import date, datetime
 
 from flask import Blueprint, redirect
 from flask_restful import Resource, Api, reqparse, marshal, inputs, request
-from sqlalchemy import desc
+from sqlalchemy import asc, desc, and_, or_
 
 from infrastructure.model.db_model import db, Weight
 from src import success_template, error_template
@@ -16,48 +16,30 @@ api = Api(bp_weight)
 
 class HomeResource(Resource):
     def get(self):
-        return success_template('home.html', {})
-
-    def options(self):
-        return {}, 200
-
-
-class IndexResource(Resource):
-    def get(self):
-        qry = Weight.query
-        qry = qry.order_by(desc(Weight.date))
-
+        qry = Weight.query.order_by(desc(Weight.date))
         results = []
-        total_max = 0
-        total_min = 0
-        total_margin = 0
+        total_weight = 0
+        total_loss = 0
         for row in qry.all():
             data = marshal(row, Weight.response_field)
-            total_max += data['max']
-            total_min += data['min']
-            total_margin += data['margin']
+            total_weight += data['weight']
+            total_loss += data['loss']
             results.append(data)
-
         try:
-            mean_maximum = total_max / len(results)
+            mean_weight = total_weight / len(results)
         except ZeroDivisionError:
-            mean_maximum = 0
+            mean_weight = 0
         try:
-            mean_miniimum = total_min / len(results)
+            mean_loss = total_loss / len(results)
         except ZeroDivisionError:
-            mean_miniimum = 0
-        try:
-            mean_margin = total_margin / len(results)
-        except ZeroDivisionError:
-            mean_margin = 0
+            mean_loss = 0
         results.append({
-            'date': 'Rata-rata',
-            'max': f'{mean_maximum}',
-            'min': f'{mean_miniimum}',
-            'margin': f'{mean_margin}',
+            'date': 'Mean',
+            'weight': f'{round(mean_weight, 2)}',
+            'loss': f'{round(mean_loss, 2)}',
+            'status': 'GO',
         })
-
-        return success_template('index.html', results)
+        return success_template('home.html', results)
 
     def options(self):
         return {}, 200
@@ -68,9 +50,7 @@ class DetailResource(Resource):
         parser = reqparse.RequestParser()
         parser.add_argument('id', location='args', required=True)
         args = parser.parse_args()
-
         qry = Weight.query.get(args["id"])
-
         return success_template('detail.html', marshal(qry, Weight.response_field))
 
     def options(self):
@@ -82,39 +62,38 @@ class CrudResource(Resource):
         parser = reqparse.RequestParser()
         parser.add_argument('id', location='args')
         args = parser.parse_args()
-
         qry = Weight.query.get(args["id"])
         if not qry:
-            return success_template('create.html', [])
-        return success_template('create.html', marshal(qry, Weight.response_field))
+            return success_template('edit.html', [])
+        return success_template('edit.html', marshal(qry, Weight.response_field))
 
     def post(self):
-        if not request.form['max'] or not request.form['min'] or not request.form['date']:
-            return error_template('create.html', [], 'All forms should be filled', 400)
-
-        try:
-            if int(request.form['max']) < int(request.form['min']):
-                return error_template('create.html', [], 'Data \'max\' should bigger than \'min\'', 400)
-            maximum = int(max(request.form['max'], request.form['min']))
-            minimum = int(min(request.form['max'], request.form['min']))
-        except Exception:
-            return error_template('create.html', [], 'Data max / min should be numeric', 400)
-    
+        if not request.form['weight'] or not request.form['date']:
+            return error_template('home.html', [], 'All forms should be filled', 400)
         try:
             date = datetime.strptime(request.form['date'], "%Y-%m-%d")
         except Exception:
-            return error_template('create.html', [], 'Data date should be date', 400)
-
-        margin = maximum - minimum
-        berat = Weight(request.form['max'], request.form['min'], margin, date)
-
+            return error_template('home.html', [], 'Data date should be date', 400)
         try:
-            db.session.add(berat)
-            db.session.commit()
+            weight = int(request.form['weight'])
+            qry = Weight.query.filter(Weight.date <= date).order_by(desc(Weight.date)).first()
+            loss = 0
+            if qry:
+                loss = qry.weight - weight
         except Exception:
-            return error_template('create.html', [], 'Data \'ID\' already exist', 400)
-
-        return redirect(f"/weight/detail?id={berat.id}")
+            return error_template('home.html', [], 'Data weight should be numeric', 400)
+        status = None
+        for k, v in Weight.WEIGHT_STATUS.items():
+            if weight < k:
+                status = v
+                break
+        data = Weight(weight, loss, status, date)
+        try:
+            db.session.add(data)
+            db.session.commit()
+        except Exception as e:
+            return error_template('home.html', [], 'Data \'ID\' already exist (%s)' % e, 400)
+        return redirect(f"/weight/detail?id={data.id}")
 
     def options(self):
         return {}, 200
@@ -122,39 +101,40 @@ class CrudResource(Resource):
 
 class EditResource(CrudResource):
     def post(self):
-        if not request.form['max'] or not request.form['min'] or not request.form['date']:
-            return error_template('create.html', [], 'All forms should be filled', 400)
-
+        if not request.form['weight'] or not request.form['date']:
+            return error_template('edit.html', [], 'All forms should be filled', 400)
         qry = Weight.query.get(request.form["id"])
-
         try:
-            if int(request.form['max']) < int(request.form['min']):
-                return error_template('create.html', [], 'Data \'max\' should bigger than \'min\'', 400)
-            maximum = int(max(request.form['max'], request.form['min']))
-            minimum = int(min(request.form['max'], request.form['min']))
+            weight = int(request.form['weight'])
+            qry = Weight.query.filter(Weight.date <= date).order_by(desc(Weight.date)).first()
+            loss = 0
+            if qry:
+                loss = qry.weight - weight
         except Exception:
-            return error_template('create.html', [], 'Data max / min should be numeric', 400)
-    
+            return error_template('edit.html', [], 'Data weight should be numeric', 400)
         try:
             date = datetime.strptime(request.form['date'], "%Y-%m-%d")
         except Exception:
-            return error_template('create.html', [], 'Data date should be date', 400)
-
-        margin = maximum - minimum
+            return error_template('edit.html', [], 'Data date should be date', 400)
+        status = None
+        for k, v in Weight.WEIGHT_STATUS.items():
+            if weight < k:
+                status = v
+                break
         try:
-            qry.max = maximum
-            qry.min = minimum
-            qry.margin = margin
+            qry.weight = weight
+            qry.loss = loss
+            if status:
+                qry.status = status
             qry.date = date
             db.session.commit()
-        except Exception:
-            return error_template('create.html', [], 'Data failed to save', 500)
-
+        except Exception as e:
+            return error_template('edit.html', [], 'Data failed to save (%s)' % e, 500)
         return redirect(f"/weight/detail?id={qry.id}")
+
 
 base_uri = "/weight"
 api.add_resource(HomeResource, base_uri + '/home', base_uri + '/home')
-api.add_resource(IndexResource, base_uri + '/index', base_uri + '/index')
 api.add_resource(DetailResource, base_uri + '/detail', base_uri + '/detail')
 api.add_resource(CrudResource, base_uri + '/create', base_uri + '/create')
 api.add_resource(EditResource, base_uri + '/edit', base_uri + '/edit')

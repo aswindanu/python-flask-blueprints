@@ -1,55 +1,77 @@
-<!DOCTYPE html>
-<html>
-  <title>
-    {{ title }} 
-  </title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
-<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/mainpage.css') }}">
-<body>
+{% extends "base.html" %}
 
-<!-- Header / Home-->
+{% block title %}Index{% endblock %}
+
+{% block head %}
+  {{ super() }}
+  <style type="text/css">
+    .important { color: #336699; }
+  </style>
+{% endblock %}
+
+{% block content %}
 <header class="w3-display-container w3-wide bgimg w3-grayscale-min" id="home">
   <div class="w3-display-left w3-center">
-    <h2>This is portfolio of Flask + MVC</h2>
-    <h3 class="w3-text-amber">Created by aswindanu</h3>
-    <a href="/api/docs">
-      <h4> 
-        Click here for API documentation
-      </h4>
-    </a>
+    <h3> 
+      Your friendly weight-o <br/> meter is here!
+    </h3>
+    <!-- table -->
+    <div class="w3-display-middle w3-text-white w3-center">
+      {% if results|length > 0 %}
+        <table >
+          <tr>
+            <th>Date</th>
+            <th>Weight(Kg)</th>
+            <th>Weight loss(Kg)</th>
+            <th>Status</th>
+            <th>Tools</th>
+          </tr>
+  
+          <tr>
+            <td>---</td>
+            <td>---</td>
+            <td>---</td>
+            <td>---</td>
+            <td>---</td>
+          </tr>
+          
+          {%for result in results%}
+          <tr>
+            <td>{{ result.date }}</td>
+            <td>{{ result.weight }}</td>
+            <td>{{ result.loss }}</td>
+            <td>{{ result.status }}</td>
+            <td>
+              <a href="{{ url_for('weight.detailresource')}}?id={{ result.id }}">
+                <i class="fa fa-eye" aria-hidden="true"></i>
+              </a>
+              <a href="{{ url_for('weight.editresource')}}?id={{ result.id }}">
+                <i class="fa fa-pencil" aria-hidden="true"></i>
+              </a>
+            </td>
+          </tr>
+          {%endfor%}
+        </table>
+      {% else %}
+          No data
+      {% endif %}
+    </div>
+    <!-- end of table -->
+    <h6 class="swagger-docs"> 
+      <a href="/api/docs" target="_blank">
+        Click here for Swagger Docs
+      </a>
+    </h6>
   </div>
   <div class="w3-display-right w3-center">
-    <h2>Your Private Weight Control</h2>
-    <h1 class="w3-jumbo">
-      <a href="{{ url_for('weight.indexresource')}}">
-        Table Index
-      </a>
-    </h1>
-    <h2>
-      <a href="{{ url_for('weight.crudresource')}}">
-        Create New
-      </a>
-    </h2>
+    {{ message }}
+    <form class="home-create-weight" action="{{ url_for('weight.crudresource') }}" method="post">
+      <label class="text-brown" for="date">Date:</label><br>
+      <input type="text" id="date" name="date" placeholder="2021-12-24" value=""><br>
+      <label class="text-brown" for="weight">Weight:</label><br>
+      <input type="text" id="weight" name="weight" placeholder="52" value=""><br>
+      <input type="submit" value="Submit">
+    </form>
   </div>
 </header>
-
-<!-- Navbar (sticky bottom) -->
-<div class="w3-bottom w3-hide-small">
-  <div class="w3-bar w3-white w3-center w3-padding w3-opacity-min w3-hover-opacity-off">
-    <a href="#" style="width:33%" class="w3-bar-item w3-button">Home</a>
-    <a href="{{ url_for('weight.indexresource')}}" style="width:34%" class="w3-bar-item w3-button">Table Index</a>
-    <a href="{{ url_for('weight.crudresource')}}" style="width:33%" class="w3-bar-item w3-button">Create New</a>
-  </div>
-</div>
-
-<!-- Footer -->
-<footer class="w3-center w3-black w3-padding-16">
-  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-text-green">w3.css</a></p>
-</footer>
-<div class="w3-hide-small" style="margin-bottom:32px"> </div>
-
-</body>
-</html>
+{% endblock %}
