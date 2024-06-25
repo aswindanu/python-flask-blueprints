@@ -178,11 +178,19 @@ class LoginTemplate(ParentResource):
                     "key": "refresh_token",
                     "value": res["refresh_token"],
                 },
+                {
+                    "key": "user_id",
+                    "value": str(qry.id),
+                },
             ]
         }
         self.is_login = True
         self.profile_code = Profile.query.filter_by(id=qry.profile_id).first().profile_code
         return self.success_template("weight.hometemplate", {}, is_redirect=True, context=context)
+
+class LogoutTemplate(ParentResource):
+    def get(self):
+        return self.success_template('login.html', {}, context={"bypass_login": True, "reset_token": True})
 
 
 # api
@@ -190,3 +198,4 @@ api.add_resource(AuthResource, '/api/v1/auth', '/api/v1/auth')
 api.add_resource(TokenResource, '/api/v1/refresh', '/api/v1/refresh')
 # page
 api.add_resource(LoginTemplate, '/login', '/login')
+api.add_resource(LogoutTemplate, '/logout', '/logout')

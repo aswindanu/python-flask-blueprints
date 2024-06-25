@@ -16,7 +16,12 @@ api = Api(bp_weight)
 
 class HomeTemplate(ParentResource):
     def get(self):
-        qry = Weight.query.order_by(desc(Weight.date))
+        user_id = self.user_id or request.cookies.get('user_id')
+        if user_id:
+            user_id = int(user_id)
+            qry = Weight.query.filter(Weight.user_id == user_id).order_by(desc(Weight.date))
+        else:
+            return self.error_template('error.html', [], 'Login is required', 400)
         results = []
         total_weight = 0
         total_loss = 0

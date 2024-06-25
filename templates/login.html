@@ -19,6 +19,7 @@
   <div class="w3-display-right w3-center">
     {{ message }}
     <form class="home-create-weight" action="{{ url_for('auth.logintemplate') }}" method="post">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
       <label class="text-brown" for="email_or_username">Username / Email:</label><br>
       <input type="text" id="email_or_username" name="email_or_username" placeholder="username" value=""><br>
       <label class="text-brown" for="password">Password:</label><br>

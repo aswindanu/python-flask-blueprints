@@ -66,13 +66,18 @@
   <div class="w3-display-right w3-center">
     {{ message }}
     <form class="home-create-weight" action="{{ url_for('weight.crudtemplate') }}" method="post">
-      {{ form.csrf_token }}
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
       <label class="text-brown" for="date">Date:</label><br>
       <input type="text" id="date" name="date" placeholder="2021-12-24" value=""><br>
       <label class="text-brown" for="weight">Weight:</label><br>
       <input type="text" id="weight" name="weight" placeholder="52" value=""><br>
       <input type="submit" value="Submit">
     </form>
+    <h6 class="logout"> 
+      <a href="{{ url_for('auth.logouttemplate')}}">
+        Logout
+      </a>
+    </h6>
   </div>
 </header>
 {% endblock %}

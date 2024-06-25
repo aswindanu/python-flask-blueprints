@@ -24,11 +24,13 @@ from infrastructure.model.db_model import db
 
 
 class ParentResource(Resource):
-    def __init__(self, db=db, model=None, is_login:bool=False, profile_code:str=None, enable_translate:bool=False):
+    def __init__(self, db=db, model=None, is_login:bool=False, user_id="", username="", profile_code:str=None, enable_translate:bool=False):
         self.db = db
         self.model = model
         self.enable_translate = enable_translate
         self.is_login = is_login
+        self.user_id = user_id
+        self.username = username
         self.profile_code = profile_code
         self.access_token = request.cookies.get('access_token')
         self.refresh_token = request.cookies.get('refresh_token')
@@ -38,8 +40,10 @@ class ParentResource(Resource):
         verify_jwt_in_request()
         claims = get_jwt()
         self.is_login = True
+        self.user_id = claims["id"]
+        self.username = claims["username"]
         self.profile_code = claims["profile_id"]
-        if self.profile_code == "ADMIN":
+        if self.profile_code == 1:
             return True
         if self.is_login:
             return True
@@ -128,7 +132,10 @@ class ParentResource(Resource):
             res = make_response(redirect(url_for(html_doc)))
         else:
             res = make_response(render_template(html_doc, results=results, title="Weight"), 200, headers)
-        if context.get("cookies", []):
+        if context.get("reset_token"):
+            for key, value in request.cookies.items():
+                res.set_cookie(key, "", expires=0)
+        elif context.get("cookies", []):
             for cookie in context.get("cookies", []):
                 if cookie["key"] == "access_token":
                     set_access_cookies(res, cookie["value"])

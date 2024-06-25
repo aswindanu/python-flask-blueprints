@@ -27,7 +27,6 @@ load_dotenv(dotenv_path=env_path)
 # Flask APP
 app = Flask(__name__)
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
-csrf = CSRFProtect(app)
 
 app.config['APP_DEBUG'] = DEBUG
 app.config['PROPAGATE_EXCEPTIONS'] = DEBUG
@@ -51,7 +50,9 @@ app.config['JWT_TOKEN_LOCATION'] = ['cookies']
 # app.config['JWT_ACCESS_COOKIE_PATH'] = '/api/'
 # app.config['JWT_REFRESH_COOKIE_PATH'] = '/token/refresh'
 app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET_KEY")  # Change this!
+app.config["SECRET_KEY"] = os.getenv("JWT_SECRET_KEY")  # Change this!
 
+csrf = CSRFProtect(app)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 jwt = JWTManager(app)

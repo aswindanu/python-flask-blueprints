@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: Application
-  description: Generated at 25/06/2024 17:23:49. This is the swagger 
+  description: Generated at 25/06/2024 18:14:12. This is the swagger 
     ui based on the open api 3.0 specification of the Application
   version: 1.0.0 created by the flask swagger generator.
 externalDocs:
@@ -25,10 +25,6 @@ paths:
       - weight
       operationId: 'hometemplate'
   '/weight/create':
-    post:
-      tags:
-      - weight
-      operationId: 'crudtemplate'
     get:
       tags:
       - weight
@@ -38,6 +34,10 @@ paths:
       - weight
       operationId: 'crudtemplate'
     get:
+      tags:
+      - weight
+      operationId: 'crudtemplate'
+    post:
       tags:
       - weight
       operationId: 'crudtemplate'
@@ -51,10 +51,6 @@ paths:
       - weight
       operationId: 'detailtemplate'
   '/weight/edit':
-    post:
-      tags:
-      - weight
-      operationId: 'edittemplate'
     get:
       tags:
       - weight
@@ -64,22 +60,14 @@ paths:
       - weight
       operationId: 'edittemplate'
     get:
+      tags:
+      - weight
+      operationId: 'edittemplate'
+    post:
       tags:
       - weight
       operationId: 'edittemplate'
   '/api/v1/user':
-    get:
-      tags:
-      - user
-      operationId: 'userresource'
-    delete:
-      tags:
-      - user
-      operationId: 'userresource'
-    post:
-      tags:
-      - user
-      operationId: 'userresource'
     put:
       tags:
       - user
@@ -97,6 +85,18 @@ paths:
       - user
       operationId: 'userresource'
     put:
+      tags:
+      - user
+      operationId: 'userresource'
+    get:
+      tags:
+      - user
+      operationId: 'userresource'
+    delete:
+      tags:
+      - user
+      operationId: 'userresource'
+    post:
       tags:
       - user
       operationId: 'userresource'
@@ -131,14 +131,6 @@ paths:
       security:
         - bearerAuth: []
   '/api/v1/auth':
-    get:
-      tags:
-      - auth
-      operationId: 'authresource'
-    post:
-      tags:
-      - auth
-      operationId: 'authresource'
     put:
       tags:
       - auth
@@ -152,18 +144,18 @@ paths:
       - auth
       operationId: 'authresource'
     put:
+      tags:
+      - auth
+      operationId: 'authresource'
+    get:
+      tags:
+      - auth
+      operationId: 'authresource'
+    post:
       tags:
       - auth
       operationId: 'authresource'
   '/api/v1/refresh':
-    get:
-      tags:
-      - auth
-      operationId: 'tokenresource'
-    post:
-      tags:
-      - auth
-      operationId: 'tokenresource'
     put:
       tags:
       - auth
@@ -177,14 +169,18 @@ paths:
       - auth
       operationId: 'tokenresource'
     put:
+      tags:
+      - auth
+      operationId: 'tokenresource'
+    get:
+      tags:
+      - auth
+      operationId: 'tokenresource'
+    post:
       tags:
       - auth
       operationId: 'tokenresource'
   '/login':
-    post:
-      tags:
-      - auth
-      operationId: 'logintemplate'
     get:
       tags:
       - auth
@@ -197,6 +193,19 @@ paths:
       tags:
       - auth
       operationId: 'logintemplate'
+    post:
+      tags:
+      - auth
+      operationId: 'logintemplate'
+  '/logout':
+    get:
+      tags:
+      - auth
+      operationId: 'logouttemplate'
+    get:
+      tags:
+      - auth
+      operationId: 'logouttemplate'
   '/api/docs/dist/{filename}':
     get:
       tags:

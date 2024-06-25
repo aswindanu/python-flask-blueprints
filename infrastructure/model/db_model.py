@@ -143,19 +143,22 @@ class Weight(db.Model):
 
     response_field = {
         'id': fields.Integer,
+        'user_id': fields.Integer,
         'weight': fields.Integer,
         'loss': fields.Integer,
         'status': fields.String,
         'date': fields.String,
     }
 
-    def __init__(self, weight, loss, status, date) -> None:
+    def __init__(self, user_id, weight, loss, status, date) -> None:
+        self.user_id = user_id
         self.weight = weight
         self.loss = loss
         self.status = status
         self.date = date
 
     def update(self, args):
+        self.user_id = args.get("user_id", self.user_id)
         self.weight = args.get("weight", self.weight)
         self.loss = args.get("loss", self.loss)
         self.status = args.get("status", self.status)

@@ -104,6 +104,12 @@ td {
   position: absolute;
   font-size: smaller;
 }
+.logout {
+  bottom: 3%;
+  position: absolute;
+  font-size: smaller;
+  right: 1%;
+}
 
 .footer {
   background-color: #9e7f5694;
