@@ -24,19 +24,37 @@ python-flask-blueprints
 >        |
 >        |-.github                              github actions CI/CD automation
 >        |
->        |-config                               configuration const app
+>        |-config                               configuration, mostly const app
 >        |
 >        |-docs                                 documentation related
 >        |
 >        |-infrastructure                       repository data model
+>        |       |- cached                      cache handler, mostly redis use
+>        |       |- comms                       main VOIP handler
+>        |       |- db                          query sql seed
+>        |       |- firebase                    repository firebase
+>        |       |- model                       model migration orm sqlalchemy
+>        |       |- rabbitmq                    message broker handler
+>        |       |_ rpc                         rpc call handler
 >        |
->        |-internal                             utility base app
+>        |-internal
+>        |       |
+>        |       |- logger                      main log handler
+>        |       |- protocol                    protocol handler including http, ftp, smtp
+>        |       |- service                     business logic base
+>        |       |_ util                        utility
 >        |
->        |-src                                  backend req/res api
+>        |-src                                  backend req/res
+>        |       |
+>        |       |- blueprints                  versioning blueprint api endpoint
+>        |       |- common                      common func handler
+>        |       |- error                       error func handler
+>        |       |- swagger                     swagger endpoint
+>        |       |_ __init__.py                 main src
 >        |
 >        |-static                               static dir
 >        |
->        |-templates                            frontend template
+>        |-templates                            frontend template handler
 >        |
 >        |- .env
 >        |- app.py                              main app
