@@ -29,15 +29,6 @@ s.execute(text("""-- DELETE OLD ENUM
 DROP TYPE gender_types;
 DROP TYPE weight_status;
 
-INSERT INTO "public"."weight" ("id", "weight", "loss", "status", "date") VALUES
-(1, 50, 2, 'normal', '2018-08-18'),
-(2, 51, -1, 'normal', '2018-08-19'),
-(3, 52, -1, 'normal', '2018-08-20'),
-(4, 49, 3, 'normal', '2018-08-21'),
-(5, 50, -1, 'normal', '2018-08-22');
-
-SELECT setval('weight_id_seq', 6, true);
-
 INSERT INTO "public"."profile" ("id", "profile_code") VALUES
 (1, 'ADMIN'),
 (2, 'CS'),
@@ -59,5 +50,14 @@ INSERT INTO "public"."user" ("id", "email", "language_id", "profile_id", "userna
 (5, 'testfive@gmail.com', 'en', 1,'testfive', '$2b$12$srBcyR.uQbH.GryqBWtNKu3FYx90S0UqX6QPthnLQ4qpuyMc8BJgK', 'Test Five', '08123456785', 'M', TRUE, '127.0.0.1', '2018-08-1 00:00:00', '2018-08-19 00:00:00');
 
 SELECT setval('user_id_seq', 6, true);
+
+INSERT INTO "public"."weight" ("id", "user_id", "weight", "loss", "status", "date") VALUES
+(1, 1, 50, 2, 'normal', '2018-08-18'),
+(2, 1, 51, -1, 'normal', '2018-08-19'),
+(3, 1, 52, -1, 'normal', '2018-08-20'),
+(4, 1, 49, 3, 'normal', '2018-08-21'),
+(5, 1, 50, -1, 'normal', '2018-08-22');
+
+SELECT setval('weight_id_seq', 6, true);
 """))
 s.commit()

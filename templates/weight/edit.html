@@ -13,7 +13,8 @@
   <div class="w3-display-middle w3-center">
     <h2>Edit Data</h2><h2>ID {{results.id}}</h2>
     {{ message }}
-    <form action="{{ url_for('weight.editresource') }}" method="post">
+    <form action="{{ url_for('weight.edittemplate') }}" method="post">
+      {{ form.csrf_token }}
       <input type="hidden" id="id" name="id" value="{{ results.id }}"><br>
       <label class="text-brown" for="date">Date:</label><br>
       <input type="text" id="date" name="date" value="{{ results.date }}"><br>
@@ -23,7 +24,7 @@
     </form>
   </div>
   <div>
-    <a href="{{ url_for('weight.homeresource')}}">
+    <a href="{{ url_for('weight.hometemplate')}}">
       Back to Home
     </a>
   </div>

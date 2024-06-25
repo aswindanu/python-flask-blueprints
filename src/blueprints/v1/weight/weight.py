@@ -6,16 +6,15 @@ from flask import Blueprint, redirect
 from flask_restful import Resource, Api, reqparse, marshal, inputs, request
 from sqlalchemy import asc, desc, and_, or_
 
-from internal.service.crud import ParentResource
 from infrastructure.model.db_model import db, Weight
-from src import success_template, error_template
+from internal.service.crud import ParentResource
 
 
 bp_weight = Blueprint('weight', __name__)
 api = Api(bp_weight)
 
 
-class HomeResource(ParentResource):
+class HomeTemplate(ParentResource):
     def get(self):
         qry = Weight.query.order_by(desc(Weight.date))
         results = []
@@ -40,41 +39,41 @@ class HomeResource(ParentResource):
             'loss': f'{round(mean_loss, 2)}',
             'status': '-',
         })
-        return success_template('home.html', results)
+        return self.success_template('weight/home.html', results)
 
     def options(self):
         return {}, 200
 
 
-class DetailResource(ParentResource):
+class DetailTemplate(ParentResource):
     def get(self):
         parser = reqparse.RequestParser()
         parser.add_argument('id', location='args', required=True)
         args = parser.parse_args()
         qry = Weight.query.get(args["id"])
-        return success_template('detail.html', marshal(qry, Weight.response_field))
+        return self.success_template('weight/detail.html', marshal(qry, Weight.response_field))
 
     def options(self):
         return {}, 200
 
 
-class CrudResource(ParentResource):
+class CrudTemplate(ParentResource):
     def get(self):
         parser = reqparse.RequestParser()
         parser.add_argument('id', location='args')
         args = parser.parse_args()
         qry = Weight.query.get(args["id"])
         if not qry:
-            return success_template('edit.html', [])
-        return success_template('edit.html', marshal(qry, Weight.response_field))
+            return self.success_template('edit.html', [])
+        return self.success_template('weight/edit.html', marshal(qry, Weight.response_field))
 
     def post(self):
         if not request.form['weight'] or not request.form['date']:
-            return error_template('error.html', [], 'All forms should be filled', 400)
+            return self.error_template('error.html', [], 'All forms should be filled', 400)
         try:
             date = datetime.strptime(request.form['date'], "%Y-%m-%d")
         except Exception:
-            return error_template('error.html', [], 'Data date should be date', 400)
+            return self.error_template('error.html', [], 'Data date should be date', 400)
         try:
             weight = int(request.form['weight'])
             qry = Weight.query.filter(Weight.date < date).order_by(desc(Weight.date)).first()
@@ -82,7 +81,7 @@ class CrudResource(ParentResource):
             if qry:
                 loss = qry.weight - weight
         except Exception:
-            return error_template('error.html', [], 'Data weight should be numeric', 400)
+            return self.error_template('error.html', [], 'Data weight should be numeric', 400)
         status = None
         for k, v in Weight.WEIGHT_STATUS.items():
             if weight < k:
@@ -93,22 +92,22 @@ class CrudResource(ParentResource):
             db.session.add(data)
             db.session.commit()
         except Exception as e:
-            return error_template('error.html', [], 'Data \'ID\' already exist (%s)' % e, 400)
-        return redirect(f"/weight/detail?id={data.id}")
+            return self.error_template('error.html', [], 'Data \'ID\' already exist (%s)' % e, 400)
+        return self.success_template(f"/weight/detail?id={data.id}", {}, is_redirect=True)
 
     def options(self):
         return {}, 200
 
 
-class EditResource(CrudResource):
+class EditTemplate(CrudTemplate):
     def post(self):
         if not request.form['weight'] or not request.form['date']:
-            return error_template('error.html', [], 'All forms should be filled', 400)
+            return self.error_template('error.html', [], 'All forms should be filled', 400)
         qry = Weight.query.get(request.form["id"])
         try:
             date = datetime.strptime(request.form['date'], "%Y-%m-%d")
         except Exception:
-            return error_template('error.html', [], 'Data date should be date', 400)
+            return self.error_template('error.html', [], 'Data date should be date', 400)
         try:
             weight = int(request.form['weight'])
             qry = Weight.query.filter(and_(Weight.date < date)).order_by(desc(Weight.date)).first()
@@ -116,7 +115,7 @@ class EditResource(CrudResource):
             if qry:
                 loss = qry.weight - weight
         except Exception as e:
-            return error_template('error.html', [], 'Data weight should be numeric (%s)' % e, 400)
+            return self.error_template('error.html', [], 'Data weight should be numeric (%s)' % e, 400)
         status = None
         for k, v in Weight.WEIGHT_STATUS.items():
             if weight < k:
@@ -130,12 +129,12 @@ class EditResource(CrudResource):
             qry.date = date
             db.session.commit()
         except Exception as e:
-            return error_template('error.html', [], 'Data failed to save (%s)' % e, 500)
-        return redirect(f"/weight/detail?id={qry.id}")
+            return self.error_template('error.html', [], 'Data failed to save (%s)' % e, 500)
+        return self.success_template(f"/weight/detail?id={qry.id}", is_redirect=True)
 
 
 base_uri = "/weight"
-api.add_resource(HomeResource, base_uri + '/home', base_uri + '/home')
-api.add_resource(CrudResource, base_uri + '/create', base_uri + '/create')
-api.add_resource(DetailResource, base_uri + '/detail', base_uri + '/detail')
-api.add_resource(EditResource, base_uri + '/edit', base_uri + '/edit')
+api.add_resource(HomeTemplate, base_uri + '/home', base_uri + '/home')
+api.add_resource(CrudTemplate, base_uri + '/create', base_uri + '/create')
+api.add_resource(DetailTemplate, base_uri + '/detail', base_uri + '/detail')
+api.add_resource(EditTemplate, base_uri + '/edit', base_uri + '/edit')

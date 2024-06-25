@@ -15,6 +15,7 @@ from flask_cors import CORS, cross_origin
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
+from flask_wtf.csrf import CSRFProtect
 
 from config.config import DEBUG, TOKEN_EXP, REFRESH_TOKEN_EXP
 
@@ -26,6 +27,7 @@ load_dotenv(dotenv_path=env_path)
 # Flask APP
 app = Flask(__name__)
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
+csrf = CSRFProtect(app)
 
 app.config['APP_DEBUG'] = DEBUG
 app.config['PROPAGATE_EXCEPTIONS'] = DEBUG
@@ -44,6 +46,10 @@ app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql+psycopg2://{}:{}@{}:{}/{}".f
     os.getenv("DB_NAME"),
 )
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['JWT_TOKEN_LOCATION'] = ['cookies']
+# app.config['JWT_COOKIE_SECURE'] = False
+# app.config['JWT_ACCESS_COOKIE_PATH'] = '/api/'
+# app.config['JWT_REFRESH_COOKIE_PATH'] = '/token/refresh'
 app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET_KEY")  # Change this!
 
 db = SQLAlchemy(app)

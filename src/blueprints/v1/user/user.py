@@ -12,7 +12,6 @@ from infrastructure.model.db_model import User
 from internal.util.auth import token_gen, get_username
 from internal.util.encrypt import hash_password
 from internal.service.crud import ParentResource
-from src.common.common import response
 
 
 bp_user = Blueprint('user', __name__)
@@ -61,10 +60,10 @@ class UserResource(ParentResource):
         args = parser.parse_args()
 
         if not args["id"]:
-            return response({'status':'failed',"result":"ID Not Found"}, 404)
+            return self.response({'status':'failed',"result":"ID Not Found"}, 404)
         qry = User.query.get(args["id"])
         if not qry:
-            return response({'status':'failed',"result":"ID Not Found"}, 404)
+            return self.response({'status':'failed',"result":"ID Not Found"}, 404)
         args["ip_address"] = request.remote_addr
 
         return super().update_data(qry.id, args)

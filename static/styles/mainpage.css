@@ -27,9 +27,14 @@ td {
   color: #533a1c;
   border-radius: 1%;
   min-width: 75px;
-  background-color: #ddd3c6a3;
+  background-color: #fff2e2a3;
   font-size: 90%;
   text-wrap: nowrap;
+}
+
+td {
+  font-size: 80%;
+  padding: 5px 12px;
 }
 
 .bgimg,
@@ -48,12 +53,19 @@ td {
   max-height: 500px;
 }
 
+.outline-table {
+  /* outline: 90px solid #faebd794;
+  border-radius: 1%; */
+}
+
 .w3-display-topmiddle {
   top: 20%;
 }
 
 .w3-display-left {
   background-image: url(https://www.eatthis.com/wp-content/uploads/sites/4/2021/09/weight-loss.jpg?quality=82&strip=all);
+  background-repeat: no-repeat;
+  background-size: cover;
   height: 100%;
   background-position-x: 15%;
   width: 60%;

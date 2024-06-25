@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Index{% endblock %}
+
+{% block head %}
+  {{ super() }}
+  <style type="text/css">
+    .important { color: #336699; }
+  </style>
+{% endblock %}
+
+{% block content %}
+<header class="w3-display-container w3-wide bgimg w3-grayscale-min" id="home">
+  <div class="w3-display-left w3-center">
+    <h3> 
+      Login
+    </h3>
+  </div>
+  <div class="w3-display-right w3-center">
+    {{ message }}
+    <form class="home-create-weight" action="{{ url_for('auth.logintemplate') }}" method="post">
+      <label class="text-brown" for="email_or_username">Username / Email:</label><br>
+      <input type="text" id="email_or_username" name="email_or_username" placeholder="username" value=""><br>
+      <label class="text-brown" for="password">Password:</label><br>
+      <input type="password" id="password" name="password" value=""><br>
+      <input type="submit" value="Submit">
+    </form>
+  </div>
+</header>
+{% endblock %}

@@ -99,6 +99,30 @@ class Profile(db.Model):
     def update(self, args):
         self.profile_code = args.get("profile_code", self.profile_code)
 
+
+class Language(db.Model):
+    id = db.Column(db.String, nullable=False, primary_key=True)
+    language = db.Column(db.String, nullable=False)
+    active = db.Column(db.String, nullable=False, default=True)
+    users = db.relationship('User', backref='language')
+
+    response_field = {
+        'id': fields.String,
+        'language': fields.String,
+        'active': fields.String,
+    }
+
+    def __init__(self, id, language, active=True) -> None:
+        self.id = id
+        self.language = language
+        self.active = active
+
+    def update(self, args):
+        self.id = args.get("id", self.id)
+        self.language = args.get("language", self.language)
+        self.active = args.get("active", self.active)
+
+
 class Weight(db.Model):
     WEIGHT_STATUS = {
         # "nice", "keep it up", "normal", "need diet", "fat!"
@@ -111,6 +135,7 @@ class Weight(db.Model):
     }
 
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     weight = db.Column(db.Integer, nullable=False)
     loss = db.Column(db.Integer, nullable=False)
     status = db.Column(db.Enum(*WEIGHT_STATUS.values(), name='weight_status'), nullable=False)
@@ -135,26 +160,3 @@ class Weight(db.Model):
         self.loss = args.get("loss", self.loss)
         self.status = args.get("status", self.status)
         self.date = args.get("date", self.date)
-
-
-class Language(db.Model):
-    id = db.Column(db.String, nullable=False, primary_key=True)
-    language = db.Column(db.String, nullable=False)
-    active = db.Column(db.String, nullable=False, default=True)
-    users = db.relationship('User', backref='language')
-
-    response_field = {
-        'id': fields.String,
-        'language': fields.String,
-        'active': fields.String,
-    }
-
-    def __init__(self, id, language, active=True) -> None:
-        self.id = id
-        self.language = language
-        self.active = active
-
-    def update(self, args):
-        self.id = args.get("id", self.id)
-        self.language = args.get("language", self.language)
-        self.active = args.get("active", self.active)

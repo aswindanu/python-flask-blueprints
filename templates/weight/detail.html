@@ -30,7 +30,7 @@
           <td>{{ results.loss }}kg</td>
           <td>{{ results.status }}</td>
           <td>
-            <a href="{{ url_for('weight.crudresource')}}?id={{ results.id }}">
+            <a href="{{ url_for('weight.crudtemplate')}}?id={{ results.id }}">
               edit
             </a>
           </td>
@@ -41,7 +41,7 @@
     {% endif %}
   </div>
   <div>
-    <a href="{{ url_for('weight.homeresource')}}">
+    <a href="{{ url_for('weight.hometemplate')}}">
       Back to Home
     </a>
   </div>

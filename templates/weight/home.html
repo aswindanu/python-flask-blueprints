@@ -16,7 +16,7 @@
       Your friendly weight-o <br/> meter is here!
     </h3>
     <!-- table -->
-    <div class="w3-display-middle w3-text-white w3-center scrollable">
+    <div class="w3-display-middle w3-text-white w3-center scrollable outline-table">
       {% if results|length > 0 %}
         <table >
           <tr>
@@ -42,10 +42,10 @@
             <td>{{ result.loss }}kg</td>
             <td>{{ result.status }}</td>
             <td>
-              <a href="{{ url_for('weight.detailresource')}}?id={{ result.id }}">
+              <a href="{{ url_for('weight.detailtemplate')}}?id={{ result.id }}">
                 <i class="fa fa-eye" aria-hidden="true"></i>
               </a>
-              <a href="{{ url_for('weight.editresource')}}?id={{ result.id }}">
+              <a href="{{ url_for('weight.edittemplate')}}?id={{ result.id }}">
                 <i class="fa fa-pencil" aria-hidden="true"></i>
               </a>
             </td>
@@ -65,7 +65,8 @@
   </div>
   <div class="w3-display-right w3-center">
     {{ message }}
-    <form class="home-create-weight" action="{{ url_for('weight.crudresource') }}" method="post">
+    <form class="home-create-weight" action="{{ url_for('weight.crudtemplate') }}" method="post">
+      {{ form.csrf_token }}
       <label class="text-brown" for="date">Date:</label><br>
       <input type="text" id="date" name="date" placeholder="2021-12-24" value=""><br>
       <label class="text-brown" for="weight">Weight:</label><br>

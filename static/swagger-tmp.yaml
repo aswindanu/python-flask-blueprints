@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: Application
-  description: Generated at 25/06/2024 09:09:51. This is the swagger 
+  description: Generated at 25/06/2024 17:23:49. This is the swagger 
     ui based on the open api 3.0 specification of the Application
   version: 1.0.0 created by the flask swagger generator.
 externalDocs:
@@ -19,59 +19,55 @@ paths:
     get:
       tags:
       - weight
-      operationId: 'homeresource'
+      operationId: 'hometemplate'
     get:
       tags:
       - weight
-      operationId: 'homeresource'
+      operationId: 'hometemplate'
   '/weight/create':
-    get:
-      tags:
-      - weight
-      operationId: 'crudresource'
     post:
       tags:
       - weight
-      operationId: 'crudresource'
+      operationId: 'crudtemplate'
     get:
       tags:
       - weight
-      operationId: 'crudresource'
+      operationId: 'crudtemplate'
     post:
       tags:
       - weight
-      operationId: 'crudresource'
+      operationId: 'crudtemplate'
+    get:
+      tags:
+      - weight
+      operationId: 'crudtemplate'
   '/weight/detail':
     get:
       tags:
       - weight
-      operationId: 'detailresource'
+      operationId: 'detailtemplate'
     get:
       tags:
       - weight
-      operationId: 'detailresource'
+      operationId: 'detailtemplate'
   '/weight/edit':
-    get:
-      tags:
-      - weight
-      operationId: 'editresource'
     post:
       tags:
       - weight
-      operationId: 'editresource'
+      operationId: 'edittemplate'
     get:
       tags:
       - weight
-      operationId: 'editresource'
+      operationId: 'edittemplate'
     post:
       tags:
       - weight
-      operationId: 'editresource'
+      operationId: 'edittemplate'
+    get:
+      tags:
+      - weight
+      operationId: 'edittemplate'
   '/api/v1/user':
-    put:
-      tags:
-      - user
-      operationId: 'userresource'
     get:
       tags:
       - user
@@ -97,6 +93,10 @@ paths:
       - user
       operationId: 'userresource'
     post:
+      tags:
+      - user
+      operationId: 'userresource'
+    put:
       tags:
       - user
       operationId: 'userresource'
@@ -130,32 +130,33 @@ paths:
           $ref: '#/components/responses/put_response'
       security:
         - bearerAuth: []
-    put:
-      tags:
-      - auth
-      operationId: 'loginresource'
+  '/api/v1/auth':
     get:
       tags:
       - auth
-      operationId: 'loginresource'
+      operationId: 'authresource'
     post:
       tags:
       - auth
-      operationId: 'loginresource'
+      operationId: 'authresource'
     put:
       tags:
       - auth
-      operationId: 'loginresource'
+      operationId: 'authresource'
     get:
       tags:
       - auth
-      operationId: 'loginresource'
+      operationId: 'authresource'
     post:
       tags:
       - auth
-      operationId: 'loginresource'
+      operationId: 'authresource'
+    put:
+      tags:
+      - auth
+      operationId: 'authresource'
   '/api/v1/refresh':
-    post:
+    get:
       tags:
       - auth
       operationId: 'tokenresource'
@@ -163,6 +164,39 @@ paths:
       tags:
       - auth
       operationId: 'tokenresource'
+    put:
+      tags:
+      - auth
+      operationId: 'tokenresource'
+    get:
+      tags:
+      - auth
+      operationId: 'tokenresource'
+    post:
+      tags:
+      - auth
+      operationId: 'tokenresource'
+    put:
+      tags:
+      - auth
+      operationId: 'tokenresource'
+  '/login':
+    post:
+      tags:
+      - auth
+      operationId: 'logintemplate'
+    get:
+      tags:
+      - auth
+      operationId: 'logintemplate'
+    post:
+      tags:
+      - auth
+      operationId: 'logintemplate'
+    get:
+      tags:
+      - auth
+      operationId: 'logintemplate'
   '/api/docs/dist/{filename}':
     get:
       tags:
@@ -271,6 +305,9 @@ components:
         language_id:
           type: string  
           example: id  
+        profile_id:
+          type: integer  
+          example: 1  
         email:
           type: string  
           example: aswindanu3@tes.io  
@@ -318,6 +355,9 @@ components:
         access_token:
           type: string  
           example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...  
+        profile:
+          type: string  
+          example: ADMIN  
         language:
           type: string  
           example: id  
