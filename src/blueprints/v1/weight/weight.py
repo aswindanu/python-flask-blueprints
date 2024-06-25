@@ -114,13 +114,13 @@ class CrudResource(Resource):
         except Exception:
             return error_template('create.html', [], 'Data \'ID\' already exist', 400)
 
-        return redirect(f"/detail?id={berat.id}")
+        return redirect(f"/weight/detail?id={berat.id}")
 
     def options(self):
         return {}, 200
 
 
-class EditResource(Resource):
+class EditResource(CrudResource):
     def post(self):
         if not request.form['max'] or not request.form['min'] or not request.form['date']:
             return error_template('create.html', [], 'All forms should be filled', 400)
@@ -141,8 +141,6 @@ class EditResource(Resource):
             return error_template('create.html', [], 'Data date should be date', 400)
 
         margin = maximum - minimum
-        berat = Weight(request.form['max'], request.form['min'], margin, date)
-
         try:
             qry.max = maximum
             qry.min = minimum
@@ -152,14 +150,11 @@ class EditResource(Resource):
         except Exception:
             return error_template('create.html', [], 'Data failed to save', 500)
 
-        return redirect(f"/detail?id={berat.id}")
-
-    def options(self):
-        return {}, 200
+        return redirect(f"/weight/detail?id={qry.id}")
 
 base_uri = "/weight"
 api.add_resource(HomeResource, base_uri + '/home', base_uri + '/home')
 api.add_resource(IndexResource, base_uri + '/index', base_uri + '/index')
 api.add_resource(DetailResource, base_uri + '/detail', base_uri + '/detail')
-api.add_resource(CrudResource, base_uri + '/crud', base_uri + '/crud')
-api.add_resource(EditResource, base_uri + '/crud', base_uri + '/crud')
+api.add_resource(CrudResource, base_uri + '/create', base_uri + '/create')
+api.add_resource(EditResource, base_uri + '/edit', base_uri + '/edit')

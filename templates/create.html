@@ -18,8 +18,8 @@
     {% if results|length > 0 %}
     <form action="{{ url_for('weight.editresource') }}" method="post">
       <input type="hidden" id="id" name="id" value="{{ results.id }}"><br>
-      <label class="text-brown" for="tanggal">Tanggal:</label><br>
-      <input type="text" id="tanggal" name="tanggal" value="{{ results.tanggal }}"><br>
+      <label class="text-brown" for="date">Tanggal:</label><br>
+      <input type="text" id="date" name="date" value="{{ results.date }}"><br>
       <label class="text-brown" for="max">Berat Max:</label><br>
       <input type="text" id="max" name="max" value="{{ results.max }}"><br>
       <label class="text-brown" for="min">Berat Min:</label><br>
@@ -29,8 +29,8 @@
       {% else %}
     <form action="{{ url_for('weight.crudresource') }}" method="post">
       <input type="hidden" id="id" name="id" value=""><br>
-      <label class="text-brown" for="tanggal">Tanggal:</label><br>
-      <input type="text" id="tanggal" name="tanggal" placeholder="2021-12-24" value=""><br>
+      <label class="text-brown" for="date">Tanggal:</label><br>
+      <input type="text" id="date" name="date" placeholder="2021-12-24" value=""><br>
       <label class="text-brown" for="max">Berat Max:</label><br>
       <input type="text" id="max" name="max" placeholder="52" value=""><br>
       <label class="text-brown" for="min">Berat Min:</label><br>

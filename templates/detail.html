@@ -27,10 +27,10 @@
 
         <tr>
           <td>{{ results.id }}</td>
-          <td>{{ results.tanggal }}</td>
+          <td>{{ results.date }}</td>
           <td>{{ results.max }}</td>
           <td>{{ results.min }}</td>
-          <td>{{ results.perbedaan }}</td>
+          <td>{{ results.margin }}</td>
           <td>
             <a href="{{ url_for('weight.crudresource')}}?id={{ results.id }}">
               edit

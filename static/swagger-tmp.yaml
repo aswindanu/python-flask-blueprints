@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: Application
-  description: Generated at 24/06/2024 10:59:56. This is the swagger 
+  description: Generated at 25/06/2024 05:16:35. This is the swagger 
     ui based on the open api 3.0 specification of the Application
   version: 1.0.0 created by the flask swagger generator.
 externalDocs:
@@ -42,11 +42,7 @@ paths:
       tags:
       - weight
       operationId: 'detailresource'
-  '/weight/crud':
-    post:
-      tags:
-      - weight
-      operationId: 'crudresource'
+  '/weight/create':
     get:
       tags:
       - weight
@@ -60,6 +56,19 @@ paths:
       - weight
       operationId: 'crudresource'
     post:
+      tags:
+      - weight
+      operationId: 'crudresource'
+  '/weight/edit':
+    get:
+      tags:
+      - weight
+      operationId: 'editresource'
+    post:
+      tags:
+      - weight
+      operationId: 'editresource'
+    get:
       tags:
       - weight
       operationId: 'editresource'
@@ -68,15 +77,19 @@ paths:
       - weight
       operationId: 'editresource'
   '/api/v1/user':
+    get:
+      tags:
+      - user
+      operationId: 'userresource'
     put:
       tags:
       - user
       operationId: 'userresource'
-    post:
+    delete:
       tags:
       - user
       operationId: 'userresource'
-    delete:
+    post:
       tags:
       - user
       operationId: 'userresource'
@@ -88,15 +101,11 @@ paths:
       tags:
       - user
       operationId: 'userresource'
-    post:
-      tags:
-      - user
-      operationId: 'userresource'
     delete:
       tags:
       - user
       operationId: 'userresource'
-    get:
+    post:
       tags:
       - user
       operationId: 'userresource'
@@ -130,14 +139,6 @@ paths:
           $ref: '#/components/responses/put_response'
       security:
         - bearerAuth: []
-    put:
-      tags:
-      - auth
-      operationId: 'loginresource'
-    post:
-      tags:
-      - auth
-      operationId: 'loginresource'
     get:
       tags:
       - auth
@@ -151,6 +152,14 @@ paths:
       - auth
       operationId: 'loginresource'
     get:
+      tags:
+      - auth
+      operationId: 'loginresource'
+    put:
+      tags:
+      - auth
+      operationId: 'loginresource'
+    post:
       tags:
       - auth
       operationId: 'loginresource'

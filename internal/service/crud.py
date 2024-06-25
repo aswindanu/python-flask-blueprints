@@ -9,12 +9,22 @@ from infrastructure.model.db_model import db
 from src.common.common import response
 
 class ParentResource(Resource):
-    def __init__(self, db=db, model=None, enable_translate=False):
+    def __init__(self, db=db, model=None, is_login:bool=False, profile_code:str=None, enable_translate:bool=False):
         self.db = db
         self.model = model
+        self.is_login = is_login
+        self.profile_code = profile_code
         self.enable_translate = enable_translate
 
+    def check_permission(self, context:dict={}):
+        if self.profile_code == "ADMIN":
+            return True
+        if self.is_login:
+            return True
+        return False
+
     def get_data(self, args: dict, enable_translate=False, content_type='application/json'):
+        self.check_permission()
         enable_translate = enable_translate or self.enable_translate
         if args["id"]:
             qrys = self.model.query.get(args["id"])
@@ -28,6 +38,7 @@ class ParentResource(Resource):
         return response(result, enable_translate=enable_translate, content_type=content_type)
 
     def create_data(self, args: dict, enable_translate=False, content_type='application/json'):
+        self.check_permission()
         enable_translate = enable_translate or self.enable_translate
         req = self.model(**args)
         try:
@@ -44,6 +55,7 @@ class ParentResource(Resource):
         return response("", 201, enable_translate=enable_translate, content_type=content_type)
 
     def update_data(self, id, args: dict, enable_translate=False, content_type='application/json'):
+        self.check_permission()
         enable_translate = enable_translate or self.enable_translate
         qry = self.model.query.get(id)
         if not qry:
@@ -62,6 +74,7 @@ class ParentResource(Resource):
         return response(marshal(qry, self.model.response_field), enable_translate=enable_translate, content_type=content_type)
 
     def delete_data(self, id: int, enable_translate=False, content_type=None):
+        self.check_permission()
         enable_translate = enable_translate or self.enable_translate
         if not id:
             return response({'status':'failed',"result":"ID Not Found"}, 404, enable_translate=enable_translate, content_type=content_type)

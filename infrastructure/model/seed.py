@@ -34,6 +34,12 @@ s.execute(text("""INSERT INTO "public"."weight" ("id", "max", "min", "margin", "
 
 SELECT setval('weight_id_seq', 6, true);
 
+INSERT INTO "public"."profile" ("id", "profile_code") VALUES
+(1, 'ADMIN'),
+(2, 'CS'),
+(3, 'CLIENT'),
+(4, 'EXTERNAL');
+
 INSERT INTO "public"."language" ("id", "language", "active") VALUES
 ('en', 'English', TRUE),
 ('id', 'Indonesia', TRUE),

@@ -8,7 +8,7 @@ from flask_jwt_extended import (
 )
 from flask_swagger_generator.utils import SecurityType
 
-from infrastructure.model.db_model import User
+from infrastructure.model.db_model import User, Profile
 from internal.util.auth import token_gen, get_username
 from internal.util.encrypt import validate_password, hash_password
 from internal.service.crud import ParentResource
@@ -85,6 +85,8 @@ class LoginResource(ParentResource):
         if not result:
             return response({'status':'failed', 'result': 'UNAUTHORIZED | invalid key or secret'}, 401)
         res = token_gen(args['email_or_username'], qry=qry)
+        self.is_login = True
+        self.profile_code = Profile.query.filter_by(id=qry.profile_id).first().profile_code
         return response(res)
 
     # Add security, response and request body definitions

@@ -11,6 +11,7 @@ from app import db
 # == Model ==
 class User(db.Model):
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    profile_id = db.Column(db.Integer, db.ForeignKey('profile.id'))
     language_id = db.Column(db.String, db.ForeignKey('language.id'))
     email = db.Column(db.String, nullable=False)
     username = db.Column(db.String, nullable=False, unique=True)
@@ -25,6 +26,7 @@ class User(db.Model):
 
     response_field = {
         'id': fields.Integer,
+        'profile_id': fields.Integer,
         'language_id': fields.String,
         'email': fields.String,
         'username': fields.String,
@@ -40,6 +42,7 @@ class User(db.Model):
 
     def __init__(
         self, 
+        profile_id,
         language_id,
         email,
         username,
@@ -50,6 +53,7 @@ class User(db.Model):
         ip_address,
         active=True,
     ) -> None:
+        self.profile_id = profile_id
         self.language_id = language_id
         self.email = email
         self.username = username
@@ -61,6 +65,7 @@ class User(db.Model):
         self.ip_address = ip_address
 
     def update(self, args):
+        self.profile_id = args.get("profile_id", self.profile_id)
         self.language_id = args.get("language_id", self.language_id)
         self.email = args.get("email", self.email)
         self.username = args.get("username", self.username)
@@ -71,6 +76,28 @@ class User(db.Model):
         self.active = args.get("active", self.active)
         self.ip_address = args.get("ip_address", self.ip_address)
 
+
+class Profile(db.Model):
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    profile_code = db.Column(db.String, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.today())
+    updated_at = db.Column(db.DateTime, default=datetime.today())
+
+    response_field = {
+        'id': fields.Integer,
+        'profile_code': fields.String,
+        'created_at': fields.DateTime,
+        'updated_at': fields.DateTime,
+    }
+
+    def __init__(
+        self, 
+        profile_code,
+    ) -> None:
+        self.profile_code = profile_code
+
+    def update(self, args):
+        self.profile_code = args.get("profile_code", self.profile_code)
 
 class Weight(db.Model):
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
