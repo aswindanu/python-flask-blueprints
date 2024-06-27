@@ -181,8 +181,14 @@ class LoginTemplate(BaseResource):
 class LogoutTemplate(BaseResource):
     @jwt_required()
     def get(self):
+        session = request.cookies.get("session")
         self.cache.clear()
-        return self.success_template('login.html', context={"reset_token": True})
+        context = {
+            "reset_token": True,
+        }
+        if session:
+            context["cookies"] = [("session", session)]
+        return self.success_template('login.html', context=context)
 
 
 # api

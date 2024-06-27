@@ -144,12 +144,12 @@ class ParentResource(Resource):
             set_access_cookies(res, context.get("access_token"))
         if context.get("refresh_token"):
             set_refresh_cookies(res, context.get("refresh_token"))
-        if context.get("cookies", []):
-            for cookie in context.get("cookies", []):
-                res.set_cookie(cookie["key"], cookie["value"])
         if context.get("reset_token"):
             for key, value in request.cookies.items():
                 res.set_cookie(key, "", expires=0)
+        if context.get("cookies", []):
+            for k, v in context.get("cookies", []):
+                res.set_cookie(k, v)
         return res
 
     def error_template(self, html_doc='error.html', results={}, message="Bad request", status_code=400):
