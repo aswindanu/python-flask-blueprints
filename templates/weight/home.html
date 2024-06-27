@@ -65,7 +65,10 @@
   </div>
   <div class="w3-display-right w3-center">
     {{ message }}
-    <form class="home-create-weight" action="{{ url_for('weight.crudtemplate') }}" method="post">
+    <!-- <form class="home-create-weight" onsubmit="submitForm(event, this)" method="post"> -->
+      <!-- <input type="hidden" name="endpoint" value="{{ url_for('weight.hometemplate') }}"/> -->
+      <!-- <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/> -->
+    <form class="home-create-weight" action="{{ url_for('weight.hometemplate') }}" method="post">
       <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
       <label class="text-brown" for="date">Date:</label><br>
       <input type="text" id="date" name="date" placeholder="2021-12-24" value=""><br>

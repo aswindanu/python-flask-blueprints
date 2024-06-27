@@ -21,36 +21,32 @@ from psycopg2.errors import UniqueViolation
 
 from internal.util.translate import translate
 from infrastructure.model.db_model import db
+from app import cache
 
 
 class ParentResource(Resource):
-    def __init__(self, db=db, model=None, is_login:bool=False, user_id="", username="", profile_code:str=None, enable_translate:bool=False):
+    def __init__(self, db=db, cache=cache, model=None, form=None, enable_translate:bool=False):
         self.db = db
+        self.cache = cache
         self.model = model
+        self.form = form
         self.enable_translate = enable_translate
-        self.is_login = is_login
-        self.user_id = user_id
-        self.username = username
-        self.profile_code = profile_code
-        self.access_token = request.cookies.get('access_token')
-        self.refresh_token = request.cookies.get('refresh_token')
+        self.bypass_login = False
+        self.is_login = cache.get("is_login")
+        self.user_id = cache.get("user_id")
+        self.profile_code = cache.get("profile_code")
 
-    @jwt_required()
     def check_permission(self, context={}):
-        verify_jwt_in_request()
-        claims = get_jwt()
-        self.is_login = True
-        self.user_id = claims["id"]
-        self.username = claims["username"]
-        self.profile_code = claims["profile_id"]
-        if self.profile_code == 1:
+        if self.profile_code == "ADMIN":
             return True
         if self.is_login:
             return True
         return False
 
+    # API
     def get_data(self, args: dict, enable_translate=False, content_type='application/json'):
-        self.check_permission()
+        if not self.bypass_login:
+            self.check_permission()
         enable_translate = enable_translate or self.enable_translate
         if args["id"]:
             qrys = self.model.query.get(args["id"])
@@ -64,7 +60,8 @@ class ParentResource(Resource):
         return self.response(result, enable_translate=enable_translate, content_type=content_type)
 
     def create_data(self, args: dict, enable_translate=False, content_type='application/json'):
-        self.check_permission()
+        if not self.bypass_login:
+            self.check_permission()
         enable_translate = enable_translate or self.enable_translate
         req = self.model(**args)
         try:
@@ -81,7 +78,8 @@ class ParentResource(Resource):
         return self.response("", 201, enable_translate=enable_translate, content_type=content_type)
 
     def update_data(self, id, args: dict, enable_translate=False, content_type='application/json'):
-        self.check_permission()
+        if not self.bypass_login:
+            self.check_permission()
         enable_translate = enable_translate or self.enable_translate
         qry = self.model.query.get(id)
         if not qry:
@@ -100,7 +98,8 @@ class ParentResource(Resource):
         return self.response(marshal(qry, self.model.response_field), enable_translate=enable_translate, content_type=content_type)
 
     def delete_data(self, id: int, enable_translate=False, content_type=None):
-        self.check_permission()
+        if not self.bypass_login:
+            self.check_permission()
         enable_translate = enable_translate or self.enable_translate
         if not id:
             return self.response({'status':'failed',"result":"ID Not Found"}, 404, enable_translate=enable_translate, content_type=content_type)
@@ -115,6 +114,8 @@ class ParentResource(Resource):
         return self.response("", 204, enable_translate=enable_translate, content_type=content_type)
 
     def response(self, result, code=200, enable_translate=False, content_type='application/json'):
+        if not self.bypass_login:
+            self.check_permission()
         if enable_translate:
             result = translate(result)
         if code == 204 or not content_type:
@@ -123,28 +124,37 @@ class ParentResource(Resource):
             return result, code, {'Content-Type': content_type}
         return {"status":"success", "result": result}, code, {'Content-Type': content_type}
 
-    def success_template(self, html_doc, results={}, is_redirect=False, context={}):
+    # TEMPLATE
+    def success_template(self, html_doc, results={}, redirect_url=False, redirect_modules=False, query_param={}, form=None, context={}):
+        if not self.bypass_login:
+            self.check_permission()
         headers = {'Content-Type': 'text/html'}
-        if not context.get("bypass_login"):
-            if not self.check_permission():
-                return self.error_template('error.html', [], 'Login Required %s' % self.access_token, 400)
-        if is_redirect:
-            res = make_response(redirect(url_for(html_doc)))
+        if redirect_modules:
+            res = make_response(redirect(url_for(html_doc, **query_param)))
+        elif redirect_url:
+            res = make_response(redirect(html_doc))
         else:
-            res = make_response(render_template(html_doc, results=results, title="Weight"), 200, headers)
+            form = form or self.form
+            res = make_response(render_template(html_doc, form=form, results=results, title="Weight"), 200, headers)
+            # if form.validate():
+            #     res = make_response(render_template(html_doc, form=form or self.form, results=results, title="Weight"), 200, headers)
+            # else:
+            #     self.error_template()
+        if context.get("access_token"):
+            set_access_cookies(res, context.get("access_token"))
+        if context.get("refresh_token"):
+            set_refresh_cookies(res, context.get("refresh_token"))
+        if context.get("cookies", []):
+            for cookie in context.get("cookies", []):
+                res.set_cookie(cookie["key"], cookie["value"])
         if context.get("reset_token"):
             for key, value in request.cookies.items():
                 res.set_cookie(key, "", expires=0)
-        elif context.get("cookies", []):
-            for cookie in context.get("cookies", []):
-                if cookie["key"] == "access_token":
-                    set_access_cookies(res, cookie["value"])
-                elif cookie["key"] == "refresh_token":
-                    set_refresh_cookies(res, cookie["value"])
-                else:
-                    res.set_cookie(cookie["key"], cookie["value"])
         return res
 
-    def error_template(self, html_doc, results={}, message="Bad request", status_code=400):
+    def error_template(self, html_doc='error.html', results={}, message="Bad request", status_code=400):
+        if not self.bypass_login:
+            self.check_permission()
         headers = {'Content-Type': 'text/html'}
-        return make_response(render_template(html_doc, results=results, message=message, title="Weight"), status_code, headers)
+        res = make_response(render_template(html_doc, results=results, message=message, title="Weight"), status_code, headers)
+        return res

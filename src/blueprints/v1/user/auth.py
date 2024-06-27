@@ -16,6 +16,7 @@ from infrastructure.model.db_model import User, Profile
 from internal.util.auth import token_gen, get_username
 from internal.util.encrypt import validate_password, hash_password
 from internal.service.crud import ParentResource
+from src.blueprints.v1.user.form import AuthForm
 from src.swagger.swagger import generator
 
 
@@ -24,10 +25,13 @@ api = Api(bp_auth)
 
 
 # API Auth
-class AuthResource(ParentResource):
+class BaseResource(ParentResource):
     def __init__(self):
-        super().__init__(model=User)
+        super().__init__(model=User, form=AuthForm)
+        self.bypass_login = True
 
+
+class AuthResource(BaseResource):
     # Add security, response and request body definitions
     @generator.security(SecurityType.BEARER_AUTH)
     @generator.response(status_code=200, schema={
@@ -134,9 +138,6 @@ class AuthResource(ParentResource):
 
 
 class TokenResource(AuthResource):
-    def __init__(self):
-        super().__init__(model=User)
-
     @jwt_required(refresh=True)
     def post(self):
         """refresh token"""
@@ -149,9 +150,9 @@ class TokenResource(AuthResource):
 
 
 # Login Page
-class LoginTemplate(ParentResource):
+class LoginTemplate(BaseResource):
     def get(self):
-        return self.success_template('login.html', {}, context={"bypass_login": True})
+        return self.success_template('login.html')
 
     def post(self):
         """login"""
@@ -161,36 +162,27 @@ class LoginTemplate(ParentResource):
         if not qry:
             qry = User.query.filter_by(username=args["email_or_username"]).first()
             if not qry:
-                return self.error_template('login.html', [], 'UNAUTHORIZED | invalid key or secret', 400)
+                return self.error_template(message='UNAUTHORIZED | invalid key or secret')
         # checking password
         result = validate_password(password, qry.password)
         if not result:
-            return self.error_template('login.html', [], 'UNAUTHORIZED | invalid key or secret', 400)
+            return self.error_template(message='UNAUTHORIZED | invalid key or secret')
         res = token_gen(args['email_or_username'], qry=qry)
         context = {
-            "bypass_login": True,
-            "cookies": [
-                {
-                    "key": "access_token",
-                    "value": res["access_token"],
-                },
-                {
-                    "key": "refresh_token",
-                    "value": res["refresh_token"],
-                },
-                {
-                    "key": "user_id",
-                    "value": str(qry.id),
-                },
-            ]
+            "access_token": res["access_token"],
+            "refresh_token": res["refresh_token"],
+            "cookies": []
         }
-        self.is_login = True
-        self.profile_code = Profile.query.filter_by(id=qry.profile_id).first().profile_code
-        return self.success_template("weight.hometemplate", {}, is_redirect=True, context=context)
+        self.cache.set("is_login", True)
+        self.cache.set("user_id", str(qry.id))
+        self.cache.set("profile_code", Profile.query.filter_by(id=qry.profile_id).first().profile_code)
+        return self.success_template("weight.hometemplate", redirect_modules=True, context=context)
 
-class LogoutTemplate(ParentResource):
+class LogoutTemplate(BaseResource):
+    @jwt_required()
     def get(self):
-        return self.success_template('login.html', {}, context={"bypass_login": True, "reset_token": True})
+        self.cache.clear()
+        return self.success_template('login.html', context={"reset_token": True})
 
 
 # api

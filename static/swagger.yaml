@@ -187,7 +187,7 @@ externalDocs:
   description: Find out more about Swagger
   url: http://swagger.io
 info:
-  description: Generated at 25/06/2024 18:14:12. This is the swagger ui based on the
+  description: Generated at 27/06/2024 14:04:00. This is the swagger ui based on the
     open api 3.0 specification of the Application
   title: Application
   version: 1.0.0 created by the flask swagger generator.
@@ -314,15 +314,6 @@ paths:
       operationId: logouttemplate
       tags:
       - auth
-  /weight/create:
-    get:
-      operationId: crudtemplate
-      tags:
-      - weight
-    post:
-      operationId: crudtemplate
-      tags:
-      - weight
   /weight/detail:
     get:
       operationId: detailtemplate
@@ -339,6 +330,10 @@ paths:
       - weight
   /weight/home:
     get:
+      operationId: hometemplate
+      tags:
+      - weight
+    post:
       operationId: hometemplate
       tags:
       - weight

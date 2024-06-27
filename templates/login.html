@@ -18,6 +18,10 @@
   </div>
   <div class="w3-display-right w3-center">
     {{ message }}
+    <!-- <form class="home-create-weight" onsubmit="submitForm(event, this)" method="post" enctype="application/x-www-form-urlencoded"> -->
+      <!-- <input type="hidden" name="endpoint" value="{{ url_for('auth.logintemplate') }}"/> -->
+      <!-- <input type="hidden" name="redirect" value="{{ url_for('weight.hometemplate') }}"/> -->
+      <!-- <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/> -->
     <form class="home-create-weight" action="{{ url_for('auth.logintemplate') }}" method="post">
       <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
       <label class="text-brown" for="email_or_username">Username / Email:</label><br>
