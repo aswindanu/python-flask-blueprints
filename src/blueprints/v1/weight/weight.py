@@ -5,11 +5,10 @@ from datetime import date, datetime
 from flask import Blueprint, redirect
 from flask_restful import Resource, Api, reqparse, marshal, inputs, request
 from sqlalchemy import asc, desc, and_, or_
-from flask_jwt_extended import (
-    jwt_required,
-    get_jwt_identity, get_jwt
-)
 
+from internal.service.middleware import (
+    jwt_required,
+)
 from internal.util.auth import get_username
 from infrastructure.model.db_model import db, Weight, User
 from src.blueprints.v1.weight.form import WeightForm
@@ -27,7 +26,7 @@ class BaseResource(ParentResource):
 
 
 class HomeTemplate(BaseResource):
-    @jwt_required()
+    @jwt_required(redirect=True)
     def get(self):
         username = get_username()
         user = User.query.filter(User.username == username).first()
@@ -58,7 +57,7 @@ class HomeTemplate(BaseResource):
         })
         return self.success_template('weight/home.html', results=results)
 
-    # @jwt_required() #XXX
+    @jwt_required(redirect=True)
     def post(self):
         if not request.form['weight'] or not request.form['date']:
             return self.error_template(message='All forms should be filled', status_code=400)
@@ -95,7 +94,7 @@ class HomeTemplate(BaseResource):
 
 
 class DetailTemplate(BaseResource):
-    @jwt_required()
+    @jwt_required(redirect=True)
     def get(self):
         parser = reqparse.RequestParser()
         parser.add_argument('id', location='args', required=True)
@@ -108,7 +107,7 @@ class DetailTemplate(BaseResource):
 
 
 class EditTemplate(BaseResource):
-    @jwt_required()
+    @jwt_required(redirect=True)
     def get(self):
         parser = reqparse.RequestParser()
         parser.add_argument('id', location='args')
@@ -118,7 +117,7 @@ class EditTemplate(BaseResource):
             return self.success_template('edit.html')
         return self.success_template('weight/edit.html', results=marshal(qry, Weight.response_field))
 
-    # @jwt_required() #XXX
+    @jwt_required(redirect=True)
     def post(self):
         if not request.form['weight'] or not request.form['date']:
             return self.error_template(message='All forms should be filled', status_code=400)

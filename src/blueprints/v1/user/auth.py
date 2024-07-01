@@ -6,13 +6,12 @@ from flask import (
     url_for
 )
 from flask_restful import Api, Resource, reqparse, marshal, request
-from flask_jwt_extended import (
-    jwt_required,
-    get_jwt_identity, get_jwt
-)
 from flask_swagger_generator.utils import SecurityType
 
 from infrastructure.model.db_model import User, Profile
+from internal.service.middleware import (
+    jwt_required,
+)
 from internal.util.auth import token_gen, get_username
 from internal.util.encrypt import validate_password, hash_password
 from internal.service.crud import ParentResource

@@ -8,17 +8,15 @@ from flask import (
     url_for
 )
 from flask_restful import Resource, marshal
-from flask_jwt_extended import (
-    jwt_required,
-    get_jwt_identity, get_jwt,
-    set_access_cookies,
-    set_refresh_cookies,
-    verify_jwt_in_request
-)
 from sqlalchemy import desc
 from sqlalchemy.exc import IntegrityError
 from psycopg2.errors import UniqueViolation
 
+from internal.service.middleware import (
+    jwt_required,
+    set_access_cookies,
+    set_refresh_cookies,
+)
 from internal.util.translate import translate
 from infrastructure.model.db_model import db
 from app import cache
@@ -36,6 +34,7 @@ class ParentResource(Resource):
         self.user_id = cache.get("user_id")
         self.profile_code = cache.get("profile_code")
 
+    @jwt_required(optional=True)
     def check_permission(self, context={}):
         if self.profile_code == "ADMIN":
             return True

@@ -37,9 +37,18 @@
     <div class="w3-hide-small" style="margin-bottom:32px"> </div> -->
   </body>
 
-  <!-- AXIOS -->
+  <!-- BASE  -->
   <script type="text/javascript">
-    axios.defaults.headers.common["X-CSRFToken"] = "{{ csrf_token() }}";
+    const getCookie = (name) => {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      if (parts.length === 2) return parts.pop().split(';').shift();
+    }
+  </script>
+
+
+  <!-- FETCH -->
+  <script type="text/javascript">
     const submitForm = (e, form) => {
       console.log("FORM", form);
       e.preventDefault();
@@ -61,39 +70,39 @@
       }
 
       options = {
-        url: form.endpoint.value,
         method: 'post',
         // credentials: "same-origin",
         credentials: "include",
         redirect: 'follow',
         headers: {
-          // "X-CSRF-Token": form.csrf_token?.value,
+          "X-CSRF-Token": getCookie('csrf_access_token') || form.csrf_token?.value,
           "Content-Type": contentType,
         },
-        data: body,
+        body: body,
       }
-      let ok, url, html;
-      axios(
+      let ok, url;
+      fetch(
+        form.endpoint.value, 
         options
       ).then((response) => {
         console.log("response", response)
-        ok = response.status;
-        url = response.request.responseURL;
-        html = response.data;
+        ok = response.ok;
+        url = response.url;
+        return response.text()
+      }).then((html) => {
         document.body.innerHTML = html;
-        if (ok != 200) return;
+        if (!ok) return;
         if (form.redirect) window.location.href = form.redirect.value;
         else if (url) window.location.href = url;
       }).catch(function(err) {
-        console.log("error", err);
-        document.body.innerHTML = err.response.data;
+        alert(`Error : ${err}`)
       });
     }
   </script>
 
-
-  <!-- FETCH -->
+  <!-- AXIOS -->
   <script type="text/javascript">
+    // axios.defaults.headers.common["X-CSRF-TOKEN"] = "{{ csrf_token() }}";
     // const submitForm = (e, form) => {
     //   console.log("FORM", form);
     //   e.preventDefault();
@@ -115,32 +124,32 @@
     //   }
 
     //   options = {
+    //     url: form.endpoint.value,
     //     method: 'post',
     //     // credentials: "same-origin",
     //     credentials: "include",
     //     redirect: 'follow',
     //     headers: {
-    //       "X-CSRF-Token": form.csrf_token?.value,
+    //       // "X-CSRF-Token": form.csrf_token?.value,
     //       "Content-Type": contentType,
     //     },
-    //     body: body,
+    //     data: body,
     //   }
-    //   let ok, url;
-    //   fetch(
-    //     form.endpoint.value, 
+    //   let ok, url, html;
+    //   axios(
     //     options
     //   ).then((response) => {
     //     console.log("response", response)
-    //     ok = response.ok;
-    //     url = response.url;
-    //     return response.text()
-    //   }).then((html) => {
+    //     ok = response.status;
+    //     url = response.request.responseURL;
+    //     html = response.data;
     //     document.body.innerHTML = html;
-    //     if (!ok) return;
+    //     if (ok != 200) return;
     //     if (form.redirect) window.location.href = form.redirect.value;
     //     else if (url) window.location.href = url;
     //   }).catch(function(err) {
-    //     alert(`Error : ${err}`)
+    //     console.log("error", err);
+    //     document.body.innerHTML = err.response.data;
     //   });
     // }
   </script>

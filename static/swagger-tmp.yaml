@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: Application
-  description: Generated at 27/06/2024 14:13:11. This is the swagger 
+  description: Generated at 01/07/2024 07:18:49. This is the swagger 
     ui based on the open api 3.0 specification of the Application
   version: 1.0.0 created by the flask swagger generator.
 externalDocs:
@@ -59,14 +59,6 @@ paths:
       - weight
       operationId: 'edittemplate'
   '/api/v1/user':
-    get:
-      tags:
-      - user
-      operationId: 'userresource'
-    post:
-      tags:
-      - user
-      operationId: 'userresource'
     delete:
       tags:
       - user
@@ -88,6 +80,14 @@ paths:
       - user
       operationId: 'userresource'
     put:
+      tags:
+      - user
+      operationId: 'userresource'
+    get:
+      tags:
+      - user
+      operationId: 'userresource'
+    post:
       tags:
       - user
       operationId: 'userresource'
@@ -122,14 +122,6 @@ paths:
       security:
         - bearerAuth: []
   '/api/v1/auth':
-    get:
-      tags:
-      - auth
-      operationId: 'authresource'
-    post:
-      tags:
-      - auth
-      operationId: 'authresource'
     put:
       tags:
       - auth
@@ -143,18 +135,18 @@ paths:
       - auth
       operationId: 'authresource'
     put:
+      tags:
+      - auth
+      operationId: 'authresource'
+    get:
+      tags:
+      - auth
+      operationId: 'authresource'
+    post:
       tags:
       - auth
       operationId: 'authresource'
   '/api/v1/refresh':
-    get:
-      tags:
-      - auth
-      operationId: 'tokenresource'
-    post:
-      tags:
-      - auth
-      operationId: 'tokenresource'
     put:
       tags:
       - auth
@@ -168,6 +160,14 @@ paths:
       - auth
       operationId: 'tokenresource'
     put:
+      tags:
+      - auth
+      operationId: 'tokenresource'
+    get:
+      tags:
+      - auth
+      operationId: 'tokenresource'
+    post:
       tags:
       - auth
       operationId: 'tokenresource'

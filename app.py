@@ -33,16 +33,19 @@ app.config['APP_DEBUG'] = DEBUG
 app.config['PROPAGATE_EXCEPTIONS'] = DEBUG
 app.config['SESSION_COOKIE_SECURE'] = not DEBUG
 
-app.config['JWT_COOKIE_SECURE'] = not DEBUG
-app.config['JWT_TOKEN_LOCATION'] = ['cookies']
-# app.config['JWT_ACCESS_COOKIE_PATH'] = '/api/'
-# app.config['JWT_REFRESH_COOKIE_PATH'] = '/token/refresh'
 
 app.config['CORS_HEADERS'] = 'Content-Type'
 
-app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET_KEY")  # Change this!
 app.config["SECRET_KEY"] = os.getenv("JWT_SECRET_KEY")  # Change this!
+app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET_KEY")  # Change this!
 
+# Detail : https://github.com/vimalloc/flask-jwt-extended/blob/master/flask_jwt_extended/jwt_manager.py
+app.config['JWT_COOKIE_SECURE'] = not DEBUG
+app.config['JWT_TOKEN_LOCATION'] = ['cookies']
+# app.config['JWT_ACCESS_COOKIE_NAME'] = 'access_token_cookie'
+# app.config['JWT_REFRESH_COOKIE_NAME'] = 'refresh_token_cookie'
+# app.config['JWT_ACCESS_CSRF_HEADER_NAME'] = 'X-CSRF-TOKEN'
+# app.config['JWT_REFRESH_CSRF_HEADER_NAME'] = 'X-CSRF-TOKEN'
 app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=int(TOKEN_EXP))
 app.config['JWT_REFRESH_TOKEN_EXPIRES'] = timedelta(days=int(REFRESH_TOKEN_EXP))
 
